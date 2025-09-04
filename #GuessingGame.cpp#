@@ -20,7 +20,7 @@ int main() {
     int input = 0;
     int guesses = 0;
     guessing = true;
-    while(guessing) {
+    while(guessing) {//Lo
       cin >> input; //Takes input
       if(random == input) {//Compares input to random number
 	cout << "You won!" << endl;
@@ -34,12 +34,12 @@ int main() {
 	guessing = false;
 	cout << endl;
       }
-      else if(input < random) {//If the rna
+      else if(input < random) {//If the input is less than random
 	guesses++;
 	cout << "Too low" << endl;
 	cout << endl;
       }
-      else if (input > random) {
+      else if (input > random) {//If the input is greater than random
 	guesses++;
 	cout << "Too high" << endl;
 	cout << endl;
