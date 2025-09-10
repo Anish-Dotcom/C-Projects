@@ -2,7 +2,10 @@
 Auther: Anish Rao
 Date: 9/4/2025
 Description: A guessing game where a random int is generaed and the user tries to guess it.
-Three rules: Treat your teachers and classmates with respect, Be safe, Use your class time well
+Three rules:
+1. No global variables
+2. No strings ever
+3. Include <iostream> not sdio
 */  
 
 #include <iostream>
@@ -18,7 +21,7 @@ int main() {
     srand(time(NULL)); //Sets the seed for the random number generator
     int random =   rand() % 101; //Generates random number
     int input = 0;
-    int guesses = 0;
+    int guesses = 1;
     guessing = true;
     while(guessing) {
       cin >> input; //Takes input
