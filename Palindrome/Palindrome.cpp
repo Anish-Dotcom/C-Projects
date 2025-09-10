@@ -1,9 +1,12 @@
 #include <iostream>
 #include <cstring>
+#include <cctype>
+
 
 using namespace std;
 
 int main() {
+    cout << "Type a word and I will say if its a palindrome: ";
   char str[80];
   cin.get(str, 80);
   char fstr [80];
@@ -16,28 +19,29 @@ int main() {
       j++;
     }
   }
-  cout << fstr <<endl;
+  for(int i = 0; i< strlen(fstr); i++) {
+      fstr[i] = toupper(fstr[i]);
+  }
   int k = strlen(fstr);
-  int target = strlen(fstr/2);
-  for(int i = 0; i < strlen(fstr); i++) 
+  int target = strlen(fstr)/2;
+  int count =0;
+  bool palindrome = false;
+  for(int i = 0; i < strlen(fstr)/2; i++) 
     {
       k--;
-      cout <<fstr[i]<<endl;
-      cout <<fstr[k]<<endl;
       if(fstr[i] == fstr[k]) 
 	{
 	  count++;
-	  
-	  cout <<"1"<<endl;
-	  break;
-	  
 	}
       if(count == target) 
 	{
 	   cout <<"Palindrome!"<<endl;
+	   palindrome = true;
+	   break;
 	}
-      
-      
+    }
+    if(!palindrome) {
+    cout<< "Not a palindrome";
     }
   
   
