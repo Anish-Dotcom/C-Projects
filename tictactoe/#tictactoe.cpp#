@@ -20,20 +20,26 @@ int main() {
 	int inputx = input[0]-49;
 	cout<<inputx<<inputy<<endl;
 	if((inputy == 0 ||inputy==1||inputy==2) && (inputx ==0||inputx==1||inputx==2)) {
-	  cout <<"Good"<< endl;
+	  table[inputx][inputy] = player;
+	  printboard(table);
+	  player = 2;
 	}else {
-	  cout << "Bad" << endl;
+	  cout << "Type valid input" << endl;
+	  playing = false;
 	}
-	table[inputx][inputy] = player;
-	printboard(table);
-	player = 2;
 	cout << "Player 2 enter your move: ";
 	cin.ignore();
 	cin.get(input,3);
         inputy = (int)(input[1]) -97;
 	inputx = input[0]-49;
-        table[inputx][inputy] = player;
-        printboard(table);
+	if((inputy == 0 ||inputy==1||inputy==2) && (inputx ==0||inputx==1||inputx==2)) {
+          table[inputx][inputy] = player;
+          printboard(table);
+          player = 2;
+        }else {
+          cout << "Type valid input" << endl;
+          playing = false;
+        }
 	cin.ignore();
       }
       game = false;
