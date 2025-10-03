@@ -10,45 +10,39 @@ int main() {
   int table[3][3] = {{0,0,0},{0,0,0},{0,0,0}};// Creates a 3x3 array that holds the tictactoe board
   bool playing = true;
   char input[2];
-  int xTurn = 0;
-  int oTurn = 1;
   int blank = 0;
   int xMove =1;
   int oMove =2;
   int xWins =0;
   int oWins =0;
-  int turn = xTurn;
+  int turn = 0;
   while (playing) {
-    cout << "Type move in coordinate form Ex. b3" << endl;
-     printboard(table);
-      while(checkwin(player,table)== false) {
+      while(checkwin(turn ,table)== false) {
+	int row =0;
+	int col =0;
+	cout << endl;
 	cout << "Type move in coordinate form Ex. b3" << endl;
 	printboard(table);
-	player = 1;
-	cout << "Player 1 enter your move: ";
+	cout << "Player " << turn+1 << " enter your move: ";
 	cin.get(input,3);
-	if(strlen(input) != 2) {
-	  cout<< "Please type a valid input" << endl;
+	if(strlen(input) == 2) {
+	  cout<< "Please type a valid input STRLEN" << endl;
 	} else if (input[0] != 'a' && input[0] != 'b' && input[0] != 'c') {
-	  cout<< "Please type a valid input" << endl;
+	  cout<< "Please type a valid input ABC" << endl;
 	}  else if (input[1] != '1' && input[1] != '2' && input[1] != '3') {
-	  cout << "Please type a valid input" << endl;
+	  cout << "Please type a valid input 123" << endl;
 	} else {
-	  int row = (int)(input[0]) -97;
-	  int col = input[1]-49;
+	  row = (int)(input[0]) -97;
+	  col = input[1]-49;
 	  cout << row << col << endl;
-	  table[row][col] = player;
+	  table[row][col] = turn;
+	  if(turn == 0) {
+	    turn = 1;
+	  } else {
+	    turn = 0;
+	  }
 	}
-	table[inputx][inputy] = player;
-	printboard(table);
-	player = 2;
-	cout << "Player 2 enter your move: ";
-	cin.ignore();
-	cin.get(input,3);
-        inputy = (int)(input[1]) -97;
-	inputx = input[0]-49;
-        table[inputx][inputy] = player;
-        printboard(table);
+        
 	cin.ignore();
       }
       playing = false;
@@ -63,9 +57,9 @@ void printboard (int table[3][3]) {
     for(int j =0;j<3; j++) {
       if(table[i][j] == 0) {
         cout << "  ";
-      }else if (table[i][j] == 1){
+      }else if (table[i][j] == 0){
         cout << "X" << " ";
-      } else if (table[i][j] == 2) {
+      } else if (table[i][j] == 1) {
         cout << "O" << " ";
       }
     }
