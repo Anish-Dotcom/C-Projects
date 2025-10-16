@@ -1,5 +1,6 @@
 #include <iostream>
-
+#include <vector>
+#include <cstring>
 using namespace std;
 
 struct Student {
@@ -9,10 +10,12 @@ struct Student {
 };
 
 int main() {
-  Student george;
-  cin >> george.name;
-  george.gpa =3.0;
-  cout << george.name << "ID:" << george.id << "GPA:";
-  cout << george.gpa << endl;
+  vector<Student> Studentlist;
+  Student George;
+  strcpy (George.name, "George");
+  George.id = 123213;
+  George.gpa = 4.23;
+  Studentlist[0] = George;
+  cout << Studentlist[0] << endl;
   return 0;
 }
