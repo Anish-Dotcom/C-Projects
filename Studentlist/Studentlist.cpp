@@ -11,13 +11,25 @@ struct Student {
 };
 
 void add(vector<Student*>& Studentlist);
-
+void remove(vector<Student*>& Studentlist);
 
 int main() {
   vector<Student*> Studentlist;
-  add(Studentlist);
-  Student* s = Studentlist[0];
-  cout << s->firstname << ' ' << s->lastname << ", " << s->id << ", " << s->gpa << endl;
+  while(true) {
+    char input[25];
+    cout<< "ADD, DELETE, or QUIT: ";
+    cin.get(input, 6);
+    cin.ignore();
+    if(strcmp (input, "ADD") ==0) {
+      add(Studentlist);
+      Student* s = Studentlist[0];
+      cout << s->firstname << ' ' << s->lastname << ", " << s->id << ", " << s->gpa << endl; 
+    } else if(strcmp (input, "REMOVE") ==0) {
+      remove(Studentlist);
+      Student* s = Studentlist[0];
+      cout << s->firstname << ' ' << s->lastname << ", " << s->id << ", " << s->gpa << endl; 
+    }
+  }
   return 0;
 }
 void add(vector<Student*>& Studentlist) {
@@ -35,5 +47,15 @@ void add(vector<Student*>& Studentlist) {
   cin >> s->id;
   cout << "Type GPA: ";
   cin >> s->gpa;
+  cin.ignore();
   Studentlist.push_back(s);
+}
+
+void remove(vector<Student*>& Studentlist) {
+  int id =0;
+  cout << "Id: ";
+  cin >> id;
+  for(int i = 0; i < Studentlist.size(); i++) {
+    cout << Studentlist[i] -> id << endl;
+  }
 }
