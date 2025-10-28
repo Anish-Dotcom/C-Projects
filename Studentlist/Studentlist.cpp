@@ -18,17 +18,20 @@ int main() {
   while(true) {
     char input[25];
     cout<< "ADD, DELETE, or QUIT: ";
-    cin.get(input, 6);
+    cin.get(input, 7);
     cin.ignore();
     if(strcmp (input, "ADD") ==0) {
       add(Studentlist);
-      Student* s = Studentlist[0];
+      Student* s = Studentlist.back();
       cout << s->firstname << ' ' << s->lastname << ", " << s->id << ", " << s->gpa << endl; 
-    } else if(strcmp (input, "REMOVE") ==0) {
+    } else if(strcmp (input, "DELETE") ==0) {
       remove(Studentlist);
       Student* s = Studentlist[0];
       cout << s->firstname << ' ' << s->lastname << ", " << s->id << ", " << s->gpa << endl; 
-    }
+    } else if(strcmp(input, "QUIT") ==0 ){
+	break;
+      }
+    cout << endl;
   }
   return 0;
 }
@@ -55,7 +58,14 @@ void remove(vector<Student*>& Studentlist) {
   int id =0;
   cout << "Id: ";
   cin >> id;
-  for(int i = 0; i < Studentlist.size(); i++) {
-    cout << Studentlist[i] -> id << endl;
+  cin.ignore();
+  for(auto it = Studentlist.begin(); it != Studentlist.end();) {
+    if((*it)-> id == id) {
+      delete *it;
+      Studentlist.erase(it);
+      break;
+    }else {
+      ++it;
+    }
   }
 }
