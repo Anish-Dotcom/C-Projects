@@ -17,6 +17,7 @@ struct Student {//Creates the studentlist struct type
 
 void add(vector<Student*>& Studentlist);
 void remove(vector<Student*>& Studentlist);
+void printStudents(vector<Student*>& Studentlist);
 
 int main() {
   vector<Student*> Studentlist;//Initializes a vector of struct pointers
@@ -27,12 +28,10 @@ int main() {
     cin.ignore();//Removes the newline charecter
     if(strcmp (input, "ADD") ==0) {
       add(Studentlist);
-      Student* s = Studentlist.back();
-      cout << s->firstname << ' ' << s->lastname << ", " << s->id << ", " << s->gpa << endl; 
+      printStudents(Studentlist);
     } else if(strcmp (input, "DELETE") ==0) {
       remove(Studentlist);
-      Student* s = Studentlist[0];
-      cout << s->firstname << ' ' << s->lastname << ", " << s->id << ", " << s->gpa << endl; 
+      printStudents(Studentlist);
     } else if(strcmp(input, "QUIT") ==0 ){
 	break;
       }
@@ -65,12 +64,20 @@ void remove(vector<Student*>& Studentlist) {
   cin >> id;//Gets an id
   cin.ignore();
   for(auto it = Studentlist.begin(); it != Studentlist.end();) { //Creates an iterator that starts on the first starts 
-    if((*it)-> id == id) {//Dereferences the pointer then compares it to the id
-      delete *it;//Deletes the pointer
-      Studentlist.erase(it);//Removes it from the struct
+    if((*it)-> id == id) {//Dereferences the iterator then dereferences again to compare the id.
+      delete *it;//Deletes the student pointer that the iterator was pointing to
+      Studentlist.erase(it);//Removes the pointer from the vector
       break;
     }else {
       ++it;//Moves to the next student
     }
+  }
+}
+
+void printStudents(vector<Student*>& Studentlist) {
+  cout << endl;
+  for(auto s = Studentlist.begin(); s != Studentlist.end();) {//Iterates through vector
+    cout << (*s)->firstname << ' ' << (*s)->lastname << ", " << (*s)->id << ", " << (*s)->gpa << endl;//Dereferences the iterator and dereferences again to print the students parts
+      s++;
   }
 }
