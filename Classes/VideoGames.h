@@ -4,6 +4,12 @@
 
 using namespace std;
 
-class VideoGames {
-
-}
+class VideoGames : public Media {
+public:
+  char* getPublisher();
+  int getRating();
+protected:
+  //char title[20] = "Halo";
+  char publisher[30] = "Microsoft";
+  int rating = 0;
+};

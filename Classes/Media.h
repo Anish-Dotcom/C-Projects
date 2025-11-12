@@ -5,8 +5,9 @@ using namespace std;
 
 class Media {
  public:
-  int geti();
- private :
-  int i = 0;
+  int getYear();
+  char* getTitle();
+ private:
+  int year = 2020;
+  char title[20] = "Halo";
 };
-

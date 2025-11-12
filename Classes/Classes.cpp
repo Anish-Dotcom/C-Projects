@@ -1,11 +1,15 @@
 #include <iostream>
 #include <cstring>
-#include "Media.h"
+#include "VideoGames.h"
 
 using namespace std;
 
 int main() {
-  cout << "Classes" << endl;
-  Media* media = new Media();
-  cout << media->geti() << endl;
+  //  Media* media = new Media();
+  //  cout << media->getYear() << endl;
+  VideoGames* game = new VideoGames();
+  cout << game->getPublisher() << endl;
+  cout << game->getYear() << endl;
+  cout << game->getTitle() << endl;
+  cout << game->getRating() << endl;
 }

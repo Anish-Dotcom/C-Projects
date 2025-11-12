@@ -4,6 +4,10 @@
 
 using namespace std;
 
-int Media::geti() {
-  return i;
+int Media::getYear() {
+  return year;
+}
+
+char* Media::getTitle() {
+  return title;
 }
