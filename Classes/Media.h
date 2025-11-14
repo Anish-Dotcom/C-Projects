@@ -1,3 +1,6 @@
+#ifndef MEDIA
+#define MEDIA
+
 #include <iostream>
 #include <cstring>
 
@@ -11,3 +14,5 @@ class Media {
   int year = 2020;
   char title[20] = "Halo";
 };
+
+#endif

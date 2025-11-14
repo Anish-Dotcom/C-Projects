@@ -3,6 +3,7 @@
 #include "VideoGames.h"
 
 using namespace std;
+
 char* VideoGames::getPublisher() {
   return publisher;
 }
