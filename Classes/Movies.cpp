@@ -19,3 +19,17 @@ void Movie::print() const  {
 Movie::~Movie() {
   cout << "Movie destructor called" << endl;
 }
+
+void Movie::setDirector() {
+  char setter[10];
+  cout<<"Director: ";
+  cin>>setter;
+  strcpy(director, setter);
+}
+
+void Movie::setRating() {
+  int setter;
+  cout<<"Rating: ";
+  cin>>setter;
+  rating = setter;
+}

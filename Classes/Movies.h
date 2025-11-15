@@ -12,9 +12,10 @@ class Movie : public Media {
   ~Movie();
   char * getDirector();
   int getRating();
-  
+  void setDirector();
+  void setRating();
  protected:
-  char director[20] = "Werner Brothers";
+  char director[20];
   int rating = 10;
 };
 #endif

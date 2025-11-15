@@ -12,9 +12,11 @@ class Media {
   char* getTitle();
   virtual void print() const = 0;
   virtual ~Media() = 0;
+  void setTitle();
+  void setYear();
  protected:
   int year = 2020;
-  char title[20] = "Godzilla";
+  char title[20];
 };
 
 #endif

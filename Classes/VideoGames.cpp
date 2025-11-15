@@ -17,3 +17,17 @@ void VideoGames::print() const{
 VideoGames::~VideoGames() {
   cout << "Videogames deleted" << endl;
 }
+void VideoGames::setPublisher() {
+  char setter[10];
+  cout<<"Publisher: ";
+  cin>>setter;
+  strcpy(publisher, setter);
+}
+
+void VideoGames::setRating() {
+  int setter;
+  cout<<"Rating: ";
+  cin>>setter;
+  rating = setter;
+}
+

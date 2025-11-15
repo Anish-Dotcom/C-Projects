@@ -18,3 +18,17 @@ void Music::print() const {
 Music::~Music() {
   cout<<"Music class deleted" << endl;
 }
+void Music::setArtist() {
+  char setter[10];
+  cout<<"Artist: ";
+  cin>>setter;
+  strcpy(artist, setter);
+}
+
+void Music::setDuration() {
+  float setter;
+  cout<<"Duration: ";
+  cin>>setter;
+  duration = setter;
+}
+

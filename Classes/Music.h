@@ -13,9 +13,11 @@ class Music : public Media {
   ~Music();
     char* getArtist();
     float getDuration();
+  void setArtist();
+  void setDuration();
    protected:
-    char artist[30] = "Microsoft";
-    float duration = 9.19;
+  char artist[30];
+  float duration;
 };
 
 #endif
