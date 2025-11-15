@@ -11,3 +11,10 @@ char* Music::getArtist() {
 float Music::getDuration() {
   return duration;
 }
+
+void Music::print() const {
+   cout << title<< " " << year<< " "<< artist <<" "<< duration << endl;
+}
+Music::~Music() {
+  cout<<"Music class deleted" << endl;
+}

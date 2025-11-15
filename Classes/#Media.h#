@@ -8,13 +8,11 @@ using namespace std;
 
 class Media {
  public:
-  int getYear();
+  virtual void  getYear();
   char* getTitle();
-  virtual void print() const = 0;
-  virtual ~Media() = 0;
- protected:
+ private:
   int year = 2020;
-  char title[20] = "Godzilla";
+  char title[20] = "Halo";
 };
 
 #endif

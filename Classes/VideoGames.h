@@ -9,10 +9,12 @@ using namespace std;
 
 class VideoGames : public Media {
  public:
+  void print() const;
+  ~VideoGames();
      char* getPublisher();
     int getRating();
+  
  protected:
-    char title[20] = "Halo";
     char publisher[30] = "Microsoft";
     int rating = 9;
 };

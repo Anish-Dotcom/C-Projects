@@ -11,3 +11,9 @@ char* VideoGames::getPublisher() {
 int VideoGames::getRating() {
   return rating;
 }
+void VideoGames::print() const{
+  cout << title<< " " << year<< " "<< publisher <<" "<< rating << endl;
+}
+VideoGames::~VideoGames() {
+  cout << "Videogames deleted" << endl;
+}
