@@ -1,3 +1,4 @@
+//The functions of Movies.h
 #include <iostream>
 #include <cstring>
 #include "Movies.h"
@@ -12,15 +13,15 @@ int Movie::getRating() {
   return rating;
 }
 
-void Movie::print() const  {
-  cout << title<< " " << year<< " "<< director <<" "<< rating << endl;
+void Movie::print() const  {//Overrides the parent print() with its own print
+  cout <<"Title: "<< title<< ", Year: " << year<< ", Director: "<< director <<", Rating: "<< rating << endl;
 }
 
 Movie::~Movie() {
-  cout << "Movie destructor called" << endl;
+  cout << "Movie removed" << endl;
 }
 
-void Movie::setDirector() {
+void Movie::setDirector() {//Consise code
   char setter[10];
   cout<<"Director: ";
   cin>>setter;

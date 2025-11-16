@@ -1,3 +1,4 @@
+//Comments are the same as Movies.h
 #ifndef VIDEOGAMES
 #define VIDEOGAMES
 

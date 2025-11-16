@@ -1,3 +1,4 @@
+//Same as Movies.h
 #ifndef MUSIC
 #define MUSIC
 

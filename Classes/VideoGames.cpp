@@ -1,3 +1,4 @@
+//Comments are the same as Movies.cpp
 #include <iostream>
 #include <cstring>
 #include "VideoGames.h"
@@ -12,10 +13,10 @@ int VideoGames::getRating() {
   return rating;
 }
 void VideoGames::print() const{
-  cout << title<< " " << year<< " "<< publisher <<" "<< rating << endl;
+  cout <<"Title: "<< title<< ", Year: " << year<< ", Publisher: "<< publisher <<", Rating: "<< rating << endl;
 }
 VideoGames::~VideoGames() {
-  cout << "Videogames deleted" << endl;
+  cout << "Videogames removed" << endl;
 }
 void VideoGames::setPublisher() {
   char setter[10];
