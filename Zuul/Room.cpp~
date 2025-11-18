@@ -1,0 +1,9 @@
+#include <iostream>
+#include <cstring>
+#include "Room.h"
+
+using namespace std;
+
+void Room::setExits(char[10] direction, Room* neighbor) {
+  
+}
