@@ -11,6 +11,6 @@ int main() {
   const char* direction ="East";
   Room* room2 = new Room();
   room->setExits(direction,room2);
-  room->getExits()->getDescription();
+  cout << room->getExits()<< endl;
   return 0;
 }

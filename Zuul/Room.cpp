@@ -13,6 +13,6 @@ Room* Room::getExits() {
   return exits.at("East");
 }
 
-char* getDescription() {
+const char* Room::getDescription() {
   return description;
 }

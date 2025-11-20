@@ -10,9 +10,9 @@ class Room {
  public:
   void setExits(const char* direction, Room* neighbor);
   Room* getExits();
-  char* getDescription();
+  const char* getDescription();
  private:
   map<const char*,Room*> exits;
-  char description[20]= "coolio";
+  const char description[20]= "coolio";
 };
 #endif
