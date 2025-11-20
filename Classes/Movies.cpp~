@@ -1,0 +1,17 @@
+#include <iostream>
+#include <cstring>
+#include "Movies.h"
+
+using namespace std;
+
+char* Movie::getDirector(){
+  return director;
+}
+
+int Movie::getRating() {
+  return rating;
+}
+
+void print() {
+  cout << title << year << director << rating;
+}

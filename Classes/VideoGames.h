@@ -1,3 +1,4 @@
+//Comments are the same as Movies.h
 #ifndef VIDEOGAMES
 #define VIDEOGAMES
 
@@ -9,12 +10,15 @@ using namespace std;
 
 class VideoGames : public Media {
  public:
+  void print() const;
+  ~VideoGames();
      char* getPublisher();
     int getRating();
+  void setPublisher();
+  void setRating();
  protected:
-    char title[20] = "Halo";
-    char publisher[30] = "Microsoft";
-    int rating = 9;
+    char publisher[30];
+    int rating;
 };
 
 #endif

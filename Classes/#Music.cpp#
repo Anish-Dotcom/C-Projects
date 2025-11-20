@@ -1,3 +1,4 @@
+//Same as Movies.cpp
 #include<iostream>
 #include<cstring>
 #include "Music.h"

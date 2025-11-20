@@ -1,3 +1,4 @@
+//Same as Movies.h
 #ifndef MUSIC
 #define MUSIC
 
@@ -9,11 +10,15 @@ using namespace std;
 
 class Music : public Media {
    public:
+  void print()const;
+  ~Music();
     char* getArtist();
     float getDuration();
+  void setArtist();
+  void setDuration();
    protected:
-    char artist[30] = "Microsoft";
-    float duration = 9.19;
+  char artist[30];
+  float duration;
 };
 
 #endif
