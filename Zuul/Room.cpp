@@ -5,16 +5,27 @@
 
 using namespace std;
 
-void Room::setExits(char* direction, Room* neighbor) {
-  if(strcmp(direction, "East") ==0){
-    exits.insert({1, neighbor});
-  } else if(strcmp(direction, "West") ==0){
-    exits.insert({2, neighbor});
+static int directionToCode(const char* direction) {
+    if (strcasecmp(direction, "east") == 0)  return 1;
+    if (strcasecmp(direction, "west") == 0)  return 2;
+    if (strcasecmp(direction, "north") == 0) return 3;
+    if (strcasecmp(direction, "south") == 0) return 4;
+    return -1;
+}
+
+void Room::setExits(const char* direction, Room* neighbor) {
+  int dir = directionToCode(direction);
+  if(dir!=-1) {
+    exits[dir]=neighbor;
   }
 }
 
-Room* Room::getExits() {
-  return exits[1];
+Room* Room::getExits(const char* direction) {
+  int dir = directionToCode(direction);
+  if(dir != -1 && exits.count(dir)) {
+    return exits[dir];
+  }
+  return nullptr;
 }
 
 char* Room::getDescription() {

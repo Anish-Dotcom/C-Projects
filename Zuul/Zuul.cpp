@@ -8,9 +8,8 @@ using namespace std;
 
 int main() {
   Room* room = new Room();
-  char direction[10] ="East";
   Room* room2 = new Room();
-  room->setExits(direction,room2);
-  cout << room->getExits()->getDescription()<< endl;
+  room->setExits("East",room2);
+  cout << room->getExits("East")->setDescription()<< endl;
   return 0;
 }
