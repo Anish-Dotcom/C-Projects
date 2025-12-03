@@ -1,0 +1,14 @@
+#ifndef Items
+#ifndef Items
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+class Items {
+ public:
+  char*  getDescription();
+  char* setDescription(setDescription);
+ private:
+   char description[20] = "Itemdesc";
+}

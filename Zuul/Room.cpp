@@ -32,6 +32,10 @@ char* Room::getDescription() {
   return description;
 }
 
-void Room::setDescription(char* desc) {
+void Room::setDescription(const char* desc) {
   strcpy(description, desc);
+}
+
+void Room::setItem(const char* name) {
+  
 }

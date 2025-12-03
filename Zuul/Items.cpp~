@@ -1,0 +1,13 @@
+#include <iostream>
+#include <cstring>
+#include <Items.h>
+
+using namespace std;
+
+void Items::setDescription(const char* desc) {
+  strcpy(description, desc);
+}
+
+void Items::getDescription() {
+  cout << description << endl;
+}
