@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <map>
+#include <vector>
 #include "Room.h"
 
 using namespace std;
@@ -36,6 +37,11 @@ void Room::setDescription(const char* desc) {
   strcpy(description, desc);
 }
 
-void Room::setItem(const char* name) {
-  
+void Room::setItem(const char* name, const char* desc) {
+  Items* item = new Items();
+  item->setName(name);
+  item->setDescription(desc);
+  itemList.push_back(item);
 }
+
+

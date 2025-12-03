@@ -1,5 +1,5 @@
-#ifndef Items
-#define Items
+#ifndef ITEMS
+#define ITEMS
 #include <iostream>
 #include <cstring>
 
@@ -7,9 +7,12 @@ using namespace std;
 
 class Items {
  public:
-  void  getDescription();
+  char*  getDescription();
+  char* getName();
   void  setDescription(const char* desc);
+  void setName(const char* I);
  private:
-   char description[20] = "Itemdesc";
+  char name[20];
+  char description[20];
 };
 #endif

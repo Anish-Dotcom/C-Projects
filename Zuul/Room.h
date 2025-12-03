@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cstring>
 #include <map>
+#include <vector>
 #include "Items.h"
 
 using namespace std;
@@ -13,10 +14,11 @@ class Room {
   Room* getExits(const char* direction);
   char* getDescription();
   void setDescription(const char* desc);
-  void setItem(const char* desc);
+  void setItem(const char* name, const char*desc);
 private:
   map<int,Room*> exits;
   char description[20]= "coolio";
-  
+  vector<Items*> itemList;
 };
 #endif
+

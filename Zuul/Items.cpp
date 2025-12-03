@@ -8,6 +8,14 @@ void Items::setDescription(const char* desc) {
   strcpy(description, desc);
 }
 
-void Items::getDescription() {
-  cout << description << endl;
+char* Items::getDescription() {
+  return description;
+}
+
+void Items::setName(const char* I) {
+  strcpy(name,I);
+}
+
+char* Items::getName(){
+  return name;
 }
