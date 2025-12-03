@@ -15,10 +15,14 @@ class Room {
   char* getDescription();
   void setDescription(const char* desc);
   void setItem(const char* name, const char*desc);
+  Items* getItem(int numb);
+  void setName(const char* inName);
+  char* getName();
 private:
   map<int,Room*> exits;
-  char description[20]= "coolio";
+  char description[50]="coolio";
   vector<Items*> itemList;
+  char name[10];
 };
 #endif
 

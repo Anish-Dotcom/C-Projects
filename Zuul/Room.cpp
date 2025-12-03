@@ -44,4 +44,14 @@ void Room::setItem(const char* name, const char* desc) {
   itemList.push_back(item);
 }
 
+Items* Room::getItem(int numb) {
+  return itemList[numb];
+}
 
+void Room::setName(const char* inName) {
+  strcpy(name, inName);
+}
+
+char* Room::getName() {
+  return name;
+}
