@@ -55,3 +55,16 @@ void Room::setName(const char* inName) {
 char* Room::getName() {
   return name;
 }
+
+Items* Room::findItem(char* Name) {
+  for(auto it = itemList.begin(); it!= itemList.end();++it) {
+    if(*it!=nullptr&&(*it)->getName()!=nullptr) {
+	if(strcmp((*it)->getName(),Name)==0) {
+	  Items* found = *it;
+	  itemList.erase(it);
+	  return found;
+	}
+      }
+  }
+  return(nullptr);
+}

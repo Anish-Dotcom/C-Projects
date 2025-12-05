@@ -18,6 +18,7 @@ class Room {
   Items* getItem(int numb);
   void setName(const char* inName);
   char* getName();
+  Items* findItem(char* Name);
 private:
   map<int,Room*> exits;
   char description[50]="coolio";
