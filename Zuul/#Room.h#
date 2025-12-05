@@ -22,6 +22,7 @@ class Room {
 private:
   map<int,Room*> exits;
   char description[50]="coolio";
+  vector<Items*> itemList;
   vector<Items*> itemList2;
   char name[10];
 };

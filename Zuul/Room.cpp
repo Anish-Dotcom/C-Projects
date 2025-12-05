@@ -41,11 +41,11 @@ void Room::setItem(const char* name, const char* desc) {
   Items* item = new Items();
   item->setName(name);
   item->setDescription(desc);
-  itemList.push_back(item);
+  itemList2.push_back(item);
 }
 
 Items* Room::getItem(int numb) {
-  return itemList[numb];
+  return itemList2[numb];
 }
 
 void Room::setName(const char* inName) {
@@ -57,11 +57,12 @@ char* Room::getName() {
 }
 
 Items* Room::findItem(char* Name) {
-  for(auto it = itemList.begin(); it!= itemList.end();++it) {
+  cout << itemList2.size() << endl;
+  for(auto it = itemList2.begin(); it!= itemList2.end();++it) {
     if(*it!=nullptr&&(*it)->getName()!=nullptr) {
 	if(strcmp((*it)->getName(),Name)==0) {
 	  Items* found = *it;
-	  itemList.erase(it);
+	  itemList2.erase(it);
 	  return found;
 	}
       }
