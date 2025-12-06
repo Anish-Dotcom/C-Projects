@@ -57,7 +57,6 @@ char* Room::getName() {
 }
 
 Items* Room::findItem(char* Name) {
-  cout << itemList2.size() << endl;
   for(auto it = itemList2.begin(); it!= itemList2.end();++it) {
     if(*it!=nullptr&&(*it)->getName()!=nullptr) {
 	if(strcmp((*it)->getName(),Name)==0) {

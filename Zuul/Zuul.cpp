@@ -10,6 +10,7 @@ Room* createRooms();
 char* getInput();
 void intro();
 void help();
+Items* rmInv(vector<Items*>& inventory);
 
 int main() {
   intro();
@@ -45,13 +46,24 @@ int main() {
 	Items* found = currentRoom->findItem(itemName);
 	
 	if(found!=nullptr) {
-	  cout << "nullptr" << endl;
 	  inventory.push_back(found);
 	  cout << "Picked up " << found->getName() << endl;
 	}else {
 	  cout << "That's not in this room" << endl;
 	}
+	cout<<endl;
       }
+    else if(strcmp(input, "drop")==0) {
+      cout << "Item name: ";
+      char itemName[20];
+      cin >> itemName;
+
+      Items* found = currentRoom->rmItem(itemName);
+
+      if(found!=nullptr) {
+	currentRoom->setItem(itemName,
+      }
+    }
   }
   return 0;
 }
@@ -78,11 +90,14 @@ Room* createRooms() {
   kitchen->setName("Kitchen");
   hallway->setName("Hallway");
   livingRoom->setName("Living Room");
+  
   entrance->setDescription("Entrance of the haunted house, you hear a movie playing to your west");
+  
   entrance->setExits("west", kitchen);
   entrance->setExits("north", hallway);
   entrance->setExits("east", livingRoom);
 
+  entrance->setItem("Item", "Desc");
   return entrance;
 }
 
@@ -106,6 +121,13 @@ void help() {
   cout << endl;
 }
 
-
-
-
+Items*  rmInv(vector<Items*>& inventory, char* Name) {
+  for(auto it =  inventory.begin(); it!= inventory.end(); ++it) {
+    if(strcmp((*it)->getName(), Name)==0) {
+    Items* found =*it;
+    inventory.erase(it);
+    return found;
+    }
+  }
+  return(nullptr);
+}
