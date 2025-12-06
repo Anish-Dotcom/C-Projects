@@ -4,8 +4,9 @@
 
 using namespace std;
 
-void Items::setDescription(const char* desc) {
-  strcpy(description, desc);
+void Items::setDescription(const char* desc) {//Adds null terminator because it was cutting out last charecter
+  strncpy(description, desc, sizeof(description) - 1);
+  description[sizeof(description) - 1] = '\0';
 }
 
 char* Items::getDescription() {
@@ -13,7 +14,8 @@ char* Items::getDescription() {
 }
 
 void Items::setName(const char* I) {
-  strcpy(name,I);
+    strncpy(name, I, sizeof(name) - 1);
+    name[sizeof(name) - 1] = '\0'; 
 }
 
 char* Items::getName(){

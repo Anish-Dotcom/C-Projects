@@ -6,13 +6,13 @@
 using namespace std;
 
 class Items {
- public:
+public://Func prototypes
   char*  getDescription();
   char* getName();
   void  setDescription(const char* desc);
   void setName(const char* I);
- private:
-  char name[20];
-  char description[20];
+private://variables
+  char name[30];
+  char description[60];
 };
 #endif
