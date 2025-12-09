@@ -1,0 +1,8 @@
+#include <cstring>
+#include <student.h>
+
+using namespace std;
+
+void setName(const char* input) {
+  strcpy(name,input);
+}

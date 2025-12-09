@@ -1,0 +1,12 @@
+#ifndef STUDENT
+#define STUDENT
+
+class Student{
+ public:
+  void setName(const char* input);
+  char* getName();
+ private:
+  char name[20] = "Name";
+};
+
+#endif
