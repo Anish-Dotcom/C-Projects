@@ -41,23 +41,25 @@ int main() {
 	    strcmp(input, "north")==0||
 	    strcmp(input, "south")==0)
       {
-	Room* next = currentRoom->getExits(input);//gets the next room
-	if(strcmp(next->getName(), "Exit")==0&&inventory.size()==5){//When next room is exit and you have 5 items you win
-	  cout << "You win!" << endl;
-	  playing = false;
+	if(currentRoom->getExits(input)==nullptr) {
+	    Room* next = nullptr;
+	    cout << "You can't go there"<< endl;
+	}else {
+	  Room* next = currentRoom->getExits(input);
+	  if(strcmp(next->getName(), "Exit")==0&&inventory.size()==5){//When next room is exit and you have 5 items you win                                                                                   
+            cout << "You win!" << endl;
+            playing = false;
+          }else {
+	    currentRoom = next;
+	    currentRoom->printExits();
+          currentRoom->printItems();
+          currentRoom->printDesc();
 	  }
-	else if(next!=nullptr) {//If next exists go there and print everything
-	  currentRoom = next;
-	  currentRoom->printExits();
-	  currentRoom->printItems();
-	  currentRoom->printDesc();
-	} else {
-	  cout << "You can't go there"<< endl;
 	}
       }
     else if(strcmp(input, "help")==0) {
-      help();//Help
-      }
+      help();//Help                                                                                                                                                                                        
+    }
     else if(strcmp(input, "get")==0) {//Pickup
       cout << "Item name: ";
 	char itemName[50];
@@ -137,7 +139,8 @@ Room* createRooms() {//Initializes all rooms
   bathroom->setDescription("Bathroom with broken windows, you can feel your bones shaking to your left");
   bathroom->setExits("west", cemetary);
   bathroom->setExits("east", bedroom);
-
+  bathroom->setExits("south", hallway);
+  
   cemetary->setName("Cemetary");
   cemetary->setDescription("A indoor cemetary, how odd, you see a glowing skull on the ground. Your exit seems to be to your left");
   cemetary->setExits("east", bathroom);
@@ -150,6 +153,7 @@ Room* createRooms() {//Initializes all rooms
   bedroom->setDescription("The only bedroom in mansion... weird, the room to your right feels very cold");
   bedroom->setExits("south", gym);
   bedroom->setExits("east", ghostRoom);
+  bedroom->setExits("west", bathroom);
   
   gym->setDescription("An untouched gym");
   gym->setExits("south",livingRoom);
@@ -157,6 +161,7 @@ Room* createRooms() {//Initializes all rooms
 
   livingRoom->setDescription("Loud noises comes from the theater");
   livingRoom->setExits("east",theater);
+  livingRoom->setExits("north",gym);
 
   theater->setDescription("The wildest theater you've seen ghosts fly around speaking some strange language, Ghostbusters is playing");
   theater->setExits("west", livingRoom);
