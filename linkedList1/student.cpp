@@ -3,8 +3,8 @@
 
 using namespace std;
 
-void Student::setName(const char* input) {
-  strcpy(name,input);
+Student::Student(const char* init) {
+  strcpy(name,init);
 }
 
 char* Student::getName() {

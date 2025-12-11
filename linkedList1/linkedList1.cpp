@@ -1,13 +1,18 @@
 #include <iostream>
 #include <cstring>
-#include "student.h"
+#include "node.h"
+
 
 using namespace std;
 
 int main() {
-  Student* student = new Student();
-  student->setName("Anish");
-  cout << student->getName() << endl;
-  delete student;
+  Student* first = new Student("Anish");
+  Node* head = new Node(first);
+  Student* second = new Student("Yupe");
+  Node* node = new Node(second);
+  head->setNext(node);
+  cout << head->getNext()->getStudent()->getName() << endl;
+  delete head;
+  delete node;
   return 0;
 }

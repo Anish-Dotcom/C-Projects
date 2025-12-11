@@ -3,7 +3,7 @@
 
 class Student{
  public:
-  void setName(const char* input);
+  Student(const char* init);
   char* getName();
  private:
   char name[20] = "Name";
