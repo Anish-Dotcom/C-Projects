@@ -1,0 +1,62 @@
+#include <iostream>
+#include <cstring>
+#include "node.h"
+
+using namespace std;
+
+void add(Node* &head);
+void print(Node* &head ,Node* next);
+
+int main() {
+  Node* head;
+  cout << "Type ADD, PRINT, DELETE, QUIT, AVERAGE" << endl << endl;;
+  char input[10];
+  bool running = true;
+  while(running) {
+    cin >> input;
+    if(strcmp(input, "ADD") == 0) {
+      add(head);
+    }else if (strcmp(input, "PRINT") == 0){
+      print(head, head);
+    }
+  }
+  return 0;
+}
+
+void add(Node* &head) {
+  char fname[20];
+  char lname[20];
+  int inId;
+  float inGpa;
+  cout << "First name: ";
+  cin >> fname;
+  cout << "Last name: ";
+  cin >> lname;
+  cout << "Id: ";
+  cin >> inId;
+  cout << "Gpa: ";
+  cin >> inGpa;
+  Student* student = new Student(fname,lname,inId,inGpa);
+  cout << "Added: "<< student->getFirstName()<< " " << student->getLastName()<<", " << student->getId()<< ", "<<student->getGpa() << endl;
+  Node* current = head;
+  if(current->getStudent() == NULL) {
+    head = new Node(student);
+  }
+  else {
+    while(current->getNext() != NULL) {
+      current = current->getNext();
+    }
+    current->setNext(new Node(NULL));
+  }
+}
+
+void print(Node* &head, Node* next) {
+  if(next == head) {
+    cout << "List: ";
+  }
+  if(next!=NULL) {
+    cout << next->getStudent()->getFirstName()<< " " << next->getStudent()->getLastName()<<", " <<
+      next->getStudent()->getId()<< ", "<< next->getStudent()->getGpa() << endl;
+    print(head,next->getNext());
+  }
+}
