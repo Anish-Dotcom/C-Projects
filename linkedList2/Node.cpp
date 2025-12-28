@@ -6,6 +6,7 @@ Node::Node(Student* s) {
 }
 
 Node::~Node() {
+  cout << "Deleted " << student->getFirstName() << endl;
   delete student;
   next = NULL;
 }
