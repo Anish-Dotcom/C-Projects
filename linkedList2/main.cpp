@@ -10,16 +10,16 @@ Description: This code allows for the creation of a student list(not stored in f
 
 using namespace std;
 
-void add(Node* current, Student* student);
+void add(Node* &head, Node* current, Node* next, Student* student);
 void print(Node* current);
-void remove(Node* &head ,Node* current, int id);
+void remove(Node* &head, Node* current, int id);
 void average(Node* current, float total, int tally);
 
 int main() {
   Node* head = NULL;//Sets first node to NULL head is NULL when list is empty
   cout << fixed <<setprecision(2); //Sets precision to two decimal places
   
-  cout << "Type ADD, PRINT, DELETE, QUIT, AVERAGE" << endl << endl;;
+  cout << "Type ADD, PRINT, DELETE, QUIT, or AVERAGE" << endl << endl;;
   char input[10];
   bool running = true;
   
@@ -41,11 +41,7 @@ int main() {
       cin >> inGpa;
   
       Student* student = new Student(fname,lname,inId,inGpa);//New student pointer based off inputs
-      if(head == NULL) {//The recursion won't work if the list is empty
-	head = new Node(student);
-      }else {
-	add(head, student);
-      }
+      add(head, head, head,student);
       cout << "Added " << student->getFirstName() << " " << student->getLastName() << endl;
     }
     else if (strcmp(input, "PRINT") == 0){
@@ -70,12 +66,31 @@ int main() {
   return 0;
 }
 
-void add(Node* current, Student* student) {
-  if(current->getNext() == NULL) {//Base case if the recusion reaches the end of list
-    current->setNext(new Node(student));//Makes a new node with the student at the end
+void add(Node* &head, Node* current, Node* next ,Student* student) {
+  if(head == NULL) {//If the list is empty set the head to it.
+    head =  new Node(student);
     return;
   }
-  add(current->getNext(), student);//Recursive step to the next node
+  
+  if(student->getId() < head->getStudent()->getId()) {//If the new students gpa is less than the head set the new student to the new head
+    Node* temp = head;//Saves the old head
+    head = new Node(student);//New head
+    head->setNext(temp);//New head next is set to old head
+    return;
+  }
+
+  if(next == NULL) {//Base case if the recursion reaches the end meaning that the new student is the biggest
+    current->setNext(new Node(student));
+    return;
+  }
+
+  if(student->getId() < next->getStudent()->getId()) {//If the new student has a smaller gpa then the next then the next make a new node in between
+    current->setNext(new Node(student));//Current node next is the new node
+    current->getNext()->setNext(next);//Makes the new node point to the next node
+    return;
+  }
+  
+  add(head, next, next->getNext(), student);//Recursive step to the next node
 }
 
 void print(Node* current) {
