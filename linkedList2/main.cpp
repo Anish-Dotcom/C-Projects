@@ -1,3 +1,8 @@
+/*
+Auther: Anish Rao
+Date: 12/29
+Description: This code allows for the creation of a student list(not stored in files), the structure is a linked list. All methods use recursion to iterate through the list.
+ */
 #include <iostream>
 #include <cstring>
 #include <iomanip> 
@@ -8,10 +13,11 @@ using namespace std;
 void add(Node* current, Student* student);
 void print(Node* current);
 void remove(Node* &head ,Node* current, int id);
+void average(Node* current, float total, int tally);
 
 int main() {
-  Node* head = NULL;
-  cout << fixed <<setprecision(2);
+  Node* head = NULL;//Sets first node to NULL head is NULL when list is empty
+  cout << fixed <<setprecision(2); //Sets precision to two decimal places
   
   cout << "Type ADD, PRINT, DELETE, QUIT, AVERAGE" << endl << endl;;
   char input[10];
@@ -25,7 +31,7 @@ int main() {
       int inId;
       float inGpa;
 
-      cout << "First name: ";
+      cout << "First name: ";//User input is not in the function because of the recursion
       cin >> fname;
       cout << "Last name: ";
       cin >> lname;
@@ -34,8 +40,8 @@ int main() {
       cout << "Gpa: ";
       cin >> inGpa;
   
-      Student* student = new Student(fname,lname,inId,inGpa);
-      if(head == NULL) {
+      Student* student = new Student(fname,lname,inId,inGpa);//New student pointer based off inputs
+      if(head == NULL) {//The recursion won't work if the list is empty
 	head = new Node(student);
       }else {
 	add(head, student);
@@ -52,14 +58,21 @@ int main() {
       cin >> id;
       remove(head, head, id);
     }
+
+    else if ( strcmp(input, "QUIT") == 0) {
+      running = false;
+    }
+
+    else if( strcmp(input, "AVERAGE")==0) {
+      average(head,0,0);
+    }
   }
   return 0;
 }
 
 void add(Node* current, Student* student) {
-  if(current == NULL) {//Base case if the recusion reaches the end of list
-    cout << "Added: "<< student->getFirstName()<< " " << student->getLastName()<<", " << student->getId()<< ", "<<student->getGpa() << endl;
-    current = new Node(student);//Makes a new node with the student at the end
+  if(current->getNext() == NULL) {//Base case if the recusion reaches the end of list
+    current->setNext(new Node(student));//Makes a new node with the student at the end
     return;
   }
   add(current->getNext(), student);//Recursive step to the next node
@@ -105,4 +118,21 @@ void remove(Node* &head, Node* current, int id) {
   }
   
   remove(head,current->getNext(),id); //Recursive steps to the next node if nothing happens
+}
+
+void average(Node* current, float total, int tally) {
+  if(current == NULL) {//Base case of recursion
+    if(tally!=0){//Prevents div by 0 error
+      cout <<total/tally<< endl;
+    }
+    else{
+      cout << "No students in list" << endl;
+    }
+    return;
+  }
+
+  total += current->getStudent()->getGpa();//Adds the current gpa to the total
+  tally++;//Increases the tally
+  
+  average(current->getNext(), total, tally);//Recursive step passing the next node and current numbs
 }
