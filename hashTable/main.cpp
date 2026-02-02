@@ -1,83 +1,77 @@
 /*
-Auther : Anish
-Date : 10/28/25
-Desc : 
- */  
+Auther: Anish Rao
+Date: 12/29
+Description: This code allows for the creation of a student list(not stored in files), the structure is a linked list. All methods use recursion to iterate through the list.
+ */
 #include <iostream>
-#include <vector>
 #include <cstring>
+#include <iomanip> 
+#include "student.h"
+
 using namespace std;
 
-struct Student {
-  char firstname[10];
-  char lastname[20];
-  int id;
-  float gpa;
-};
-
-void add(vector<Student*>& Studentlist);
-void remove(vector<Student*>& Studentlist);
-void printStudents(vector<Student*>& Studentlist);
+void add();
+void print();
+void remove();
+int hashfunction(int k,int m);
 
 int main() {
-  Student* Studentlist[100];
-  while(true) {
-    char input[25];
-    cout<< "ADD, DELETE, or QUIT: ";
-    cin.get(input, 7);
-    cin.ignore();
-    if(strcmp (input, "ADD") ==0) {
-      add(Studentlist);
-      printStudents(Studentlist);
-    } else if(strcmp (input, "DELETE") ==0) {
-      remove(Studentlist);
-      printStudents(Studentlist);
-    } else if(strcmp(input, "QUIT") ==0 ){
-	break;
-      }
-    cout << endl;
+  Student* list = new Student()[100];
+  cout << fixed <<setprecision(2); //Sets precision to two decimal places
+  cout << "Type ADD, PRINT, DELETE, QUIT, or AVERAGE" << endl << endl;
+  char input[10];
+  bool running = true;
+  hashfunction(460470,100);
+  while(running) {
+    cin >> input;
+    if(strcmp(input, "ADD") == 0) {
+      char fname[20];
+      char lname[20];
+      int inId;
+      float inGpa;
+
+      cout << "First name: ";//User input is not in the function because of the recursion
+      cin >> fname;
+      cout << "Last name: ";
+      cin >> lname;
+      cout << "Id: ";
+      cin >> inId;
+      cout << "Gpa: ";
+      cin >> inGpa;
+  
+      Student* student = new Student(fname,lname,inId,inGpa);//New student pointer based off inputs
+      add();
+      cout << "Added " << student->getFirstName() << " " << student->getLastName() << endl;
+    }
+    else if (strcmp(input, "PRINT") == 0){
+      print();
+    }
+    
+    else if (strcmp(input, "DELETE") == 0) {
+      cout << "Enter ID of student: ";
+      int id = 0;
+      cin >> id;
+      remove();
+    }
+
+    else if ( strcmp(input, "QUIT") == 0) {
+      running = false;
+    }
   }
   return 0;
 }
-void add(Student* (&Studentlist)[]) {
-  Student* s = new Student();
-  cout << "First name: ";
-  char name[20];
-  cin.get(name,20);
-  strcpy(s->firstname, name);
-  cin.ignore();
-  cout << "Last name: ";	 
-  cin.get(name, 20);
-  strcpy(s->lastname, name);
-  cin.ignore();
-  cout<< "Type id: ";
-  cin >> s->id;
-  cout << "Type GPA: ";
-  cin >> s->gpa;
-  cin.ignore();
-  Studentlist.push_back(s);
+
+void add() {
+  
 }
 
-void remove(vector<Student*>& Studentlist) {
-  int id =0;
-  cout << "Id: ";
-  cin >> id;
-  cin.ignore();
-  for(auto it = Studentlist.begin(); it != Studentlist.end();) { 
-    if((*it)-> id == id) {
-      delete *it;
-      Studentlist.erase(it);
-      break;
-    }else {
-      ++it;
-    }
-  }
+void print() {
 }
 
-void printStudents(vector<Student*>& Studentlist) {
-  cout << endl;
-  for(auto s = Studentlist.begin(); s != Studentlist.end();) {
-    cout << (*s)->firstname << ' ' << (*s)->lastname << ", " << (*s)->id << ", " << (*s)->gpa << endl;
-      s++;
-  }
+void remove() {
+}
+
+int hashfunction(int k, int m) {
+  k = (k^(k>>16)) * 2654435761u;
+  return k%m;
 }

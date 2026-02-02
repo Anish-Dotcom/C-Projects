@@ -1,0 +1,22 @@
+#ifndef STUDENT
+#define STUDENT
+
+class Student{
+ public:
+  ~Student();
+  char* getFirstName();
+  char* getLastName();
+  int getId();
+  float getGpa();
+  void setFirstName();
+  void setLastName();
+  void setId();
+  void setGpa();
+ private:
+  char* firstName = new char[20];
+  char* lastName = new char[20];
+  int id = 0;
+  float gpa = 0;
+};
+
+#endif
