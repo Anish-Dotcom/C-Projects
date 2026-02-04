@@ -1,0 +1,22 @@
+#include <iostream>
+#include <cstring>
+#include "student.h"
+
+using namespace std;
+
+class Node {
+ public:
+  // Constructors & Destructors
+  Node(Student* s);
+  ~Node();
+
+  // Getters & Setters for next Node
+  void setNext(Node* n);
+  Node* getNext();
+
+  // Getter for Student value
+  Student* getStudent();
+ private:
+  Student* student;
+  Node* next;
+};

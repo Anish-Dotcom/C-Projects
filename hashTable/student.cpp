@@ -10,11 +10,6 @@ Student::Student(char* fname, char* lname, int inId, float inGpa) {
   gpa = inGpa;
 }
 
-Student::~Student() {
-  delete firstName;
-  delete lastName;
-}
-
 char* Student::getFirstName() {
   return firstName;
 }
@@ -26,23 +21,6 @@ char* Student::getLastName() {
 int Student::getId() {
   return id;
 }
-
 float Student::getGpa() {
-  return gpa;
-}
-
-void Student::getFirstName(char* fname) {
-  strcpy(firstName, fname);
-}
-
-void Student::getLastName() {
-  return lastName;
-}
-
-void Student::getId() {
-  return id;
-}
-
-void Student::getGpa() {
   return gpa;
 }

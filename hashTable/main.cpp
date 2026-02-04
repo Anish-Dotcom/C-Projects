@@ -6,22 +6,24 @@ Description: This code allows for the creation of a student list(not stored in f
 #include <iostream>
 #include <cstring>
 #include <iomanip> 
-#include "student.h"
+#include "Node.h"
 
 using namespace std;
 
-void add();
-void print();
+void add(Node** list, Student* student);
+void print(Node** list);
 void remove();
-int hashfunction(int k,int m);
+uint32_t hashfunction(uint32_t k,int m);
+
+
 
 int main() {
-  Student* list = new Student()[100];
+  Node** list = new Node*[100];
   cout << fixed <<setprecision(2); //Sets precision to two decimal places
   cout << "Type ADD, PRINT, DELETE, QUIT, or AVERAGE" << endl << endl;
   char input[10];
   bool running = true;
-  hashfunction(460470,100);
+  cout << hashfunction(234242,100) << endl;
   while(running) {
     cin >> input;
     if(strcmp(input, "ADD") == 0) {
@@ -30,7 +32,7 @@ int main() {
       int inId;
       float inGpa;
 
-      cout << "First name: ";//User input is not in the function because of the recursion
+      cout << "First name: ";
       cin >> fname;
       cout << "Last name: ";
       cin >> lname;
@@ -39,12 +41,13 @@ int main() {
       cout << "Gpa: ";
       cin >> inGpa;
   
-      Student* student = new Student(fname,lname,inId,inGpa);//New student pointer based off inputs
-      add();
+      Student* student = new Student(fname,lname,inId,inGpa);
+      add(list,student);
+      
       cout << "Added " << student->getFirstName() << " " << student->getLastName() << endl;
     }
     else if (strcmp(input, "PRINT") == 0){
-      print();
+      print(list);
     }
     
     else if (strcmp(input, "DELETE") == 0) {
@@ -61,17 +64,29 @@ int main() {
   return 0;
 }
 
-void add() {
-  
+void add(Node** list, Student* student) {
+  uint32_t i = hashfunction((uint32_t)student->getId(), sizeof(list));
+  cout << i<< endl;
+  Node* node = new Node(student);
+  if(list[i]!=nullptr) {
+    
+  }
+  list[i] = node;
 }
 
-void print() {
+void print(Node** list) {
+  for(int i = 0; i < sizeof(list); i++) {
+    if(list[i]!= nullptr) {
+      cout << list[i]->getStudent()->getFirstName() << endl;
+    }
+  }
 }
 
 void remove() {
+  
 }
 
-int hashfunction(int k, int m) {
+uint32_t hashfunction(uint32_t k, int m) {
   k = (k^(k>>16)) * 2654435761u;
   return k%m;
 }

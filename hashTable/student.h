@@ -3,18 +3,14 @@
 
 class Student{
  public:
-  ~Student();
+  Student(char* fname, char* lname, int inId, float inGpa);
   char* getFirstName();
   char* getLastName();
   int getId();
   float getGpa();
-  void setFirstName();
-  void setLastName();
-  void setId();
-  void setGpa();
  private:
-  char* firstName = new char[20];
-  char* lastName = new char[20];
+  char firstName[20] = "Name";
+  char lastName[20] = "Name";
   int id = 0;
   float gpa = 0;
 };
