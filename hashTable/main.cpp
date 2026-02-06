@@ -12,7 +12,7 @@ using namespace std;
 
 void add(Node** list, Student* student);
 void print(Node** list);
-void remove();
+void remove(Node** list, int id);
 uint32_t hashfunction(uint32_t k,int m);
 
 
@@ -23,7 +23,6 @@ int main() {
   cout << "Type ADD, PRINT, DELETE, QUIT, or AVERAGE" << endl << endl;
   char input[10];
   bool running = true;
-  cout << hashfunction(234242,100) << endl;
   while(running) {
     cin >> input;
     if(strcmp(input, "ADD") == 0) {
@@ -54,7 +53,7 @@ int main() {
       cout << "Enter ID of student: ";
       int id = 0;
       cin >> id;
-      remove();
+      remove(list, id);
     }
 
     else if ( strcmp(input, "QUIT") == 0) {
@@ -68,22 +67,44 @@ void add(Node** list, Student* student) {
   uint32_t i = hashfunction((uint32_t)student->getId(), sizeof(list));
   cout << i<< endl;
   Node* node = new Node(student);
-  if(list[i]!=nullptr) {
     
+  if(list[i]==NULL) {
+    list[i] = node;
+  }else if(list[i]->getNext() ==NULL){
+    list[i]->setNext(node);
+  } else if(list[i]->getNext()->getNext() == NULL) {
+    list[i]->getNext()->setNext(node);
+  } else {
+    cout << "Three collisions" << endl;
   }
-  list[i] = node;
 }
 
 void print(Node** list) {
   for(int i = 0; i < sizeof(list); i++) {
-    if(list[i]!= nullptr) {
+    if(list[i]!= NULL) {
       cout << list[i]->getStudent()->getFirstName() << endl;
+      if(list[i]->getNext()!=NULL) {
+	cout << list[i]->getNext()->getStudent()->getFirstName() << endl;
+	if(list[i]->getNext()->getNext()!=NULL) {
+	  cout << list[i]->getNext()->getNext()->getStudent()->getFirstName() << endl;
+	}
+      }
     }
   }
 }
 
-void remove() {
-  
+void remove(Node** list, int id) {
+  for(int i = 0; i < sizeof(list); i++) {
+    Node* current = list[i];
+    while(current!=NULL) {
+      if(current->getStudent()->getId()==id) {
+	delete current;
+	return;
+      }else {
+	current = current->getNext();
+      }
+    }
+  }
 }
 
 uint32_t hashfunction(uint32_t k, int m) {
