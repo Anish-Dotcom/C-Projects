@@ -2,12 +2,12 @@
 
 Node::Node(Student* s) {
   student = s;
-  next = NULL;
+  next = nullptr;
 }
 
 Node::~Node() {
   delete student;
-  next = NULL;
+  next = nullptr;
 }
 
 void Node::setNext(Node* n) {
