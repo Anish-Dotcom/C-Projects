@@ -11,31 +11,28 @@ Description: This code allows for the creation of a student list(not stored in f
 #include "Node.h"
 
 using namespace std;
-
+//Protoypes, total and tablesize are passed by ref for some functions
 void add(Node** list, Student* student,int &total, int &tablesize);
 void print(Node** list, int total, int tablesize);
 void remove(Node** list, int id, int &total, int tablesize);
 uint32_t hashfunction(uint32_t k,int m);
 void addRandom(Node** list, int &total, int &tablesize);
 void getNames(char firstNames[50][20], char lastNames[50][20]);
-void rehash(Node** list, int total ,int &tablesize);
+//void rehash(Node** list, int total ,int &tablesize);
 
 int main() {
-  Node** list = new Node*[100]();
-  for (int i = 0; i < 100; i++) {
-    list[i] = nullptr;
-  }
+  Node** list = new Node*[100]();//Creates the table of linked lists
   cout << fixed <<setprecision(2); //Sets precision to two decimal places
   cout << "Commands: ADD  DELETE  RANDOM  PRINT  QUIT" << endl << endl;
   char input[10];
   bool running = true;
-  int total = 0;
-  int tablesize = 100;
-  srand(time(0));
+  int total = 0;//Total students
+  int tablesize = 100;//Tablesize for rehashing
+  srand(time(0));//Seeds the random number generator
   while(running) {
     cin >> input;
     if(strcmp(input, "ADD") == 0) {
-      char fname[20];
+      char fname[20];//Student inputs
       char lname[20];
       int id;
       float gpa;
@@ -50,7 +47,7 @@ int main() {
       cin >> gpa;
   
       Student* student = new Student(fname,lname, id, gpa);
-      add(list, student ,total, tablesize);
+      add(list, student ,total, tablesize);//Adds
     }
     else if (strcmp(input, "PRINT") == 0){
       print(list, total, tablesize);
@@ -67,7 +64,7 @@ int main() {
       cout << "Number of students: ";
       int inputInt;
       cin >> inputInt;
-      for(int i = 0; i <inputInt; i++) {
+      for(int i = 0; i <inputInt; i++) {//Creates a random students with the amount based on input
         addRandom(list, total, tablesize);
       }
     }
@@ -80,34 +77,35 @@ int main() {
 }
 
 void add(Node** list, Student* student, int &total, int &tablesize) {
-  uint32_t i = hashfunction((uint32_t)(student->getId()), tablesize);
+  uint32_t i = hashfunction((uint32_t)(student->getId()), tablesize);//Gets index from hashfunction
   Node* node = new Node(student);
   Node* current = list[i];
   
-  if(current==nullptr) {
-    list[i]=node;
+  if(current==nullptr) {//If the index is empty
+    list[i]=node;//Set that index to node
+    total++;
     cout << student->getFirstName()  << " " << student->getLastName()  << " " << student->getId()  << " " << student->getGpa() << endl;
     return;
   }
-  int collisions =0;
+  int collisions = 0;
   
-  while(current->getNext()!=nullptr){
-    if(collisions == 2) {
-      rehash(list, total, tablesize);
-      cout << "Rehashed"<<tablesize<< endl;
+  while(current->getNext()!=nullptr){//Iterate untill the last node
+    if(collisions == 2) {//If there have been three collisions rehash it
+      //    rehash(list, total, tablesize);
+      //      cout << "Rehashed"<<tablesize<< endl;
     }
-    current = current->getNext();
+    current = current->getNext();//Otherwise iterate
     collisions++;
   }
-  current->setNext(node);
+  current->setNext(node);//Adds the
   total++;
   cout << student->getFirstName()  << " " << student->getLastName()  << " " << student->getId()  << " " << student->getGpa() << endl;
 }
 
 void print(Node** list, int total, int tablesize) {
-  for(int i = 0; i < tablesize; i++) {
+  for(int i = 0; i < tablesize; i++) {//Iterates through all items
     Node* current = list[i];
-    while(current!=nullptr) {
+    while(current!=nullptr) {//Iterates through linked list
       cout << current->getStudent()->getFirstName() << " " << current->getStudent()->getLastName()  << endl;
       current = current->getNext();
     }
@@ -116,28 +114,28 @@ void print(Node** list, int total, int tablesize) {
 
 
 void remove(Node** list, int id, int &total, int tablesize) {
-  int i = hashfunction((uint32_t)(id), tablesize);
+  int i = hashfunction((uint32_t)(id), tablesize);//Hashfunctions the given id to find the index to delete
   Node* current =  list [i];
   Node* previous = nullptr;
   
-  while(current!=nullptr){
-    if(current->getStudent()->getId() == id) {
-      if(previous==nullptr) {
+  while(current!=nullptr){//Iterates through the linked list
+    if(current->getStudent()->getId() == id) {//If it finds the student in linked list then delete
+      if(previous==nullptr) {//If its the first node then just set the first to the second
         list[i] = current->getNext();
       } else {
-        previous->setNext(current->getNext());
+        previous->setNext(current->getNext());//Otherwise set the previous to the next
       }
-      delete current;
+      delete current;//Deletes the node
       total--;
       return;
     }
-    previous = current;
+    previous = current;//Iterates through
     current = current->getNext();
   }
-  cout << "No student found" << endl;
+  cout << "No student found" << endl;//If nothing is found
 }
 
-uint32_t hashfunction(uint32_t k, int m) {
+uint32_t hashfunction(uint32_t k, int m) {//Hashfunction taken from stackoverflow
   k = (k^(k>>16)) * 2654435761u;
   return k%m;
 }
@@ -145,23 +143,23 @@ uint32_t hashfunction(uint32_t k, int m) {
 void addRandom(Node** list, int &total, int &tablesize) {
   char firstNames[50][20];
   char lastNames[50][20];
-  getNames(firstNames, lastNames);
+  getNames(firstNames, lastNames);//Gets the array of names
   char fName[20];
   char lName[20];
-  strcpy(fName, firstNames[rand() % 50]);
+  strcpy(fName, firstNames[rand() % 50]);//Sets the name to a random index from the array
   strcpy(lName, lastNames[rand() % 50]);
-  int id = total+1;
-  float gpa = ((float)(rand())/(float)(RAND_MAX/4));
+  int id = total+1;//Sets the id to the total plus one
+  float gpa = ((float)(rand())/(float)(RAND_MAX/4));//Gets a random float 0-4
   Student* student = new Student(fName,lName,id,gpa);
-  add(list, student , total, tablesize);
+  add(list, student , total, tablesize);//Adds random
 }
 
 void getNames(char firstNames[50][20], char lastNames[50][20]) {
-  ifstream MyReadFile("Names.txt");
+  ifstream MyReadFile("Names.txt");//Gets the names file
   char input[20];
   for(int i = 0; i < 50; i++) {
-    MyReadFile.getline(input,20);
-    strcpy(firstNames[i], input);
+    MyReadFile.getline(input,20);//Reads it and puts into input
+    strcpy(firstNames[i], input);//Adds the name into the array
   }
   for(int i = 0; i < 50; i++) {
     MyReadFile.getline(input,20);
@@ -169,39 +167,39 @@ void getNames(char firstNames[50][20], char lastNames[50][20]) {
   }
   MyReadFile.close();
 }
-
+/*
 void rehash(Node** list, int total, int &tablesize) {
   int oldsize = tablesize;
-  tablesize *= 2;
+  tablesize *= 2;//Doubles size
 
-  Node** newlist = new Node*[tablesize];
+  Node** newlist = new Node*[tablesize];//Makes a new table
 
   for(int i = 0; i < tablesize; i++) {
-    newlist[i] = NULL;
+    newlist[i] = NULL;//Sets the tables indexes to NULL
   }
 
-  for(int i = 0; i < oldsize; i++) {
+  for(int i = 0; i < oldsize; i++) {//Iterates through the oldsize and puts every node into the new one
     Node* current = list[i];
     while(current != NULL) {
       Student* student = current->getStudent();
-      uint32_t j = hashfunction(student->getId(), tablesize);
+      uint32_t j = hashfunction(student->getId(), tablesize);//Gets a new index
 
       Node* newNode = new Node(student);
-
+      
       if(newlist[j] == NULL) {
         newlist[j] = newNode;
       } else {
-        Node* temp = newlist[j];
-        while(temp->getNext() != NULL) {
+        Node* temp = newlist[j];//Temp node at the index
+        while(temp->getNext() != NULL) {//Iterates through end
           temp = temp->getNext();
         }
-        temp->setNext(newNode);
+        temp->setNext(newNode);//Sets the next final node the new node.
       }
 
-      current = current->getNext();
+      current = current->getNext();//Otherwise iterate
     }
   }
 
-  list = newlist;
+  list = newlist;//Makes the old list the new.
 }
- 
+*/
