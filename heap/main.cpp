@@ -29,44 +29,16 @@ int main() {
     cin >> input;
     if (strcmp(input, "ADDTYPE") == 0) {//Add by typing
       cout << "Enter numbers seperated by spaces: ";
-      char line[10];
+      int line;
       cin.ignore();
-      cin.get(line, 10, ' ');
-      while(line[0]!='\0') {
-	cout<<line;
-	size++;
-	heap[size] = atoi(line);
-	add(&heap, size);
-	cin.ignore();
-	cin.get(line, 10, ' ');
+      while(cin>>line && cin.peek()!='\n') {//If the cin works continue and it has not reached the end
+        size++;//Resizes
+        heap[size] =line;//Adds number 
+        add(&heap, size);//Corrects heap
       }
-      cout << endl;
-      /*
-      char line[1000];
-      cin.ignore();
-      cin.getline(line, 1000);
-      
-      int num = 0;
-      bool reading = false;
-
-      for(int i = 0; i<strlen(line); i++) {
-        if(isdigit(line[i])) {
-          num = num*10 + (line[i] - '0');
-          reading = true;
-        }else if(reading) {
-          size++;
-          heap[size] = num;
-          add(&heap, size);
-          num = 0;
-          reading = false;
-        }
-      }
-      if(reading) {
-        size++;
-        heap[size] = num;
-        add(&heap, size);
-      }
-      */
+      size++;
+      heap[size] = line;
+      add(&heap,size);
     } else if(strcmp(input, "ADDFILE")==0){//Add by file
       cout << "Enter filename: ";
       cin>>input;
@@ -81,7 +53,7 @@ int main() {
           file.ignore();
           file.get(line, 10, ' ');
         }
-	cout << "File read" << endl;
+        cout << "File read" << endl;
       }else {
         cout << "Error reading file" << endl;
       }
