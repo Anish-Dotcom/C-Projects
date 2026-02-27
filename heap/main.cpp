@@ -16,6 +16,7 @@ using namespace std;
 void add(int** heap, int index);
 void remove(int** heap, int index, int size);
 void print(int* heap, int index,int size, int depth);//Passes depth to print the tree
+void removeall(int**heap, int &size);
 
 int main() {
   int* heap = new int[101];//The heap starts at index 1
@@ -70,6 +71,7 @@ int main() {
       }
     } else if (strcmp(input, "QUIT") == 0) {
       running = false;
+      removeall(&heap,size);
     } else {
       cout << "Invalid command" << endl;
     }
@@ -124,4 +126,14 @@ void print(int* heap, int index, int size, int depth) {//Index starts at root
   if(left<size) {//For each node traverse down its left side, this allows every node to be printed
     print(heap,left,size,depth+1);
   }  
+}
+
+void removeall(int** heap, int &size) {
+  int firstSize=size;
+  for(int i = 0; i < firstSize; i++) {//Iterates through list deleting everything
+    cout << (*heap)[1] << endl;
+    swap((*heap)[1],(*heap)[size]);
+    size--;
+    remove(heap, 1, size);
+  }
 }
