@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cstring>
+#include <cctype>
 #include "node.h"
+#include "binarytree.h"
 
 using namespace std;
 
@@ -9,14 +11,17 @@ int pop(node* &top);
 int peek(node* top);
 
 void enqueue(node* &front, node* &back, int num);
-int dequque(node* &front);
+int dequeue(node* &front);
 
 void print(node* head);
+
+char* shuntingyard(char* infix);
 
 int main() {
   node* top = NULL;
   node* qfront = NULL;
   node* qback = NULL;
+  treenode* head = NULL;
   bool running = true;
   char input[10];
   while(running) {
@@ -28,7 +33,7 @@ int main() {
     } else if(strcmp(input, "pop") == 0) {
       cout << pop(top) << endl;
     } else if(strcmp(input, "print") == 0) {
-      print(qback);
+      print(qfront);
     } else if(strcmp(input, "peek") == 0) {
       cout << peek(top) << endl;
     } else if(strcmp(input, "enq") == 0) {
@@ -36,10 +41,16 @@ int main() {
       cin >> num;
       enqueue(qfront,qback,num);
     } else if(strcmp(input, "deq") == 0) {
-      dequeue(qfront);
+      cout << dequeue(qfront) << endl;;
     } else if(strcmp(input, "quit") == 0){
       running = false;
-    } 
+    } else if(strcmp(input, "inf-post") == 0) {
+      cout << "enter string" << endl;
+      char input2[30];
+      cin.ignore();
+      cin.getline(input2,30);
+      shuntingyard(input2);
+    }
   }
 }
 
@@ -79,9 +90,11 @@ int dequeue(node* &front) {
   if(front == NULL) {
     return -1;
   }
-  int num = front->getNum
+  int num = front->getNum();
   node* temp = front;
+  front = front->getNext();
   delete temp;
+  return num;
 }
 
 void print(node* head) {
@@ -90,4 +103,21 @@ void print(node* head) {
     cout << current->getNum() << endl;
     current = current->getNext();
   }
+}
+
+char* shuntingyard(char* infix) {
+  node* outputqueue = NULL;
+  node* operatorstack = NULL;
+  for(int i = 0; i < strlen(infix); i++) {
+    if(isdigit(infix[i])) {
+      push(outputqueue, infix[i]);
+    }else if{
+      
+    }
+  }
+  return NULL;
+}
+
+bool isoperator() {
+  
 }
