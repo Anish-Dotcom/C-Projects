@@ -1,17 +1,26 @@
 #include <iostream>
 #include "node.h"
-
-node::node(int inum) {
-  num = inum;
+//Getters, setters, and constructors
+node::node(char input) {
+  data = input;
   next = NULL;
+  tree = NULL;
 }
-node::~node() { }
+node::~node() {
+  delete tree;//Tree deletion
+}
 void node::setNext(node* node) {
   next = node;
 }
 node* node::getNext() {
   return next;
 }
-int node::getNum() {
-  return num;
+char node::getData() {
+  return data;
+}
+treenode* node::getTree() {
+  return tree;
+}
+void node::setTree(treenode* itree) {
+  tree = itree;
 }

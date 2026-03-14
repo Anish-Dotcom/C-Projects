@@ -1,6 +1,6 @@
 #include <iostream>
 #include "binarytree.h"
-
+//Getters setters and constructors
 treenode::treenode(int inum) {data = inum;}
 treenode::~treenode(){}
 int treenode::getdata() {return data;}

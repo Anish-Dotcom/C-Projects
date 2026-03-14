@@ -2,17 +2,21 @@
 #define NODE
 
 #include <iostream>
+#include "binarytree.h"
 
 class node {
 public:
-  node(int inum);//Constructor
+  node(char input);//Constructor
   ~node();//Destructor
   void setNext(node* node);//Setter
   node* getNext();//Getter
-  int getNum();//Getter
+  char getData();//Getter
+  treenode* getTree();
+  void setTree(treenode* itree);
 private://Values
-  int num;
+  char data;
   node* next;
+  treenode* tree;
 };
 
 #endif
