@@ -7,7 +7,6 @@ node::node(char input) {
   tree = NULL;
 }
 node::~node() {
-  delete tree;//Tree deletion
 }
 void node::setNext(node* node) {
   next = node;

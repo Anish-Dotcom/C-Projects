@@ -33,7 +33,7 @@ void prefixprint(treenode* root);
 int main() {
   bool running = true;
   char input[10];
-  treenode* expressiontree = NULL;
+  treenode* exptree = NULL;
   cout << "Commands: quit, input, infix, postfix, prefix" << endl;
   while(running) {//Command loop
     cin >> input;
@@ -44,18 +44,19 @@ int main() {
       char input2[30];
       cin.ignore();
       cin.getline(input2,30);
-      expressiontree = shuntingyard(input2);//Converts the infix into postfix into an expression tree
-    } else if(strcmp(input, "infix")==0) {
-      infixprint(expressiontree);
+      exptree = shuntingyard(input2);//Converts the infix into postfix into an expression tree
+      } else if(strcmp(input, "infix")==0) {
+      infixprint(exptree);
       cout << endl;
     } else if(strcmp(input, "postfix")==0) {
-      postfixprint(expressiontree);
+      postfixprint(exptree);
       cout << endl;
     } else if(strcmp(input, "prefix")==0) {
-      prefixprint(expressiontree);
+      prefixprint(exptree);
       cout << endl;
     }
   }
+  delete exptree;
 }
 
 void push(node* &top, char input) {
@@ -157,37 +158,38 @@ treenode* shuntingyard(char* infix) {
   return expressiontree(outputqueuef);//Convert to expression tree and return
 }
 treenode* expressiontree(node* inputqueue) {
-    node* current = inputqueue;
-    node* treestack = NULL;
+  node* current = inputqueue;
+  node* treestack = NULL;//Stack of binary trees
+  
+  while (current != NULL) {//Until end of queue
+    char data = current->getData();
     
-    while (current != NULL) {
-        char data = current->getData();
-
-        if (isdigit(data)) {
-            treenode* newNode = new treenode(data);
-            pushtree(treestack, newNode);
-            current = current->getNext();
-
-        } else if (isoperator(data)) {
-            treenode* opNode = new treenode(data);
-            treenode* right = poptree(treestack);
-            treenode* left  = poptree(treestack);
-
-            opNode->setright(right);
-            opNode->setleft(left);
-            
-            pushtree(treestack, opNode);
-            current = current->getNext();
-
-        } else {
-          current = current->getNext();
-        }
+    if (isdigit(data)) {//If number then make it a tree node and push it onto the stack
+      treenode* newNode = new treenode(data);
+      pushtree(treestack, newNode);
+      current = current->getNext();
+      
+    } else if (isoperator(data)) {//If its a operator
+      treenode* opNode = new treenode(data);//Get itself and pops children from stack
+      treenode* right = poptree(treestack);
+      treenode* left  = poptree(treestack);
+      
+      opNode->setright(right);//Operator sets number as children
+      opNode->setleft(left);
+      
+      pushtree(treestack, opNode);//Pushes tree onto stack
+      current = current->getNext();
+      
+    } else {
+      current = current->getNext();//Iterate
     }
-    treenode* root = poptree(treestack);
-    delete treestack;
-    return root;
+  }
+  treenode* root = poptree(treestack);//Pops the last stacknode and returns the finished tree
+
+  delete treestack;
+  return root;
 }
-bool isoperator(char input) {
+bool isoperator(char input) {//If operator(redundent)
   switch (input) {
   case '+':
     return true;
@@ -203,7 +205,7 @@ bool isoperator(char input) {
   return false;
 }
 
-int precidence(char input) {
+int precidence(char input) {//Determines precidence
   switch (input) {
   case '+':
     return 1;
@@ -220,26 +222,26 @@ int precidence(char input) {
 }
 
 void infixprint(treenode* root) {
-  if(root==NULL) {
+  if(root==NULL) {//Base case
     return;
   }
-  infixprint(root->getleft());
-  cout << (char)root->getdata()<< ' ';
-  infixprint(root->getright());
+  infixprint(root->getleft());//Recurse down the left
+  cout << (char)root->getdata()<< ' ';//Goes up one and prints the operator
+  infixprint(root->getright());//Goes back down and prints the other end
 }
 void prefixprint(treenode* root) {
   if(root==NULL) {
     return;
   }
-  cout << (char)root->getdata()<< ' ';
-  prefixprint(root->getleft());
-  prefixprint(root->getright());
+  cout << (char)root->getdata()<< ' ';//Prints the operator first
+  prefixprint(root->getleft());//Prints its left side
+  prefixprint(root->getright());//Prints its right side
 }
 void postfixprint(treenode* root) {
   if(root==NULL) {
     return;
   }
-  postfixprint(root->getleft());
+  postfixprint(root->getleft());//First prints the numbers
   postfixprint(root->getright());
-  cout << (char)root->getdata() << ' ';
+  cout << (char)root->getdata() << ' ';//Then gets the operators
 }
