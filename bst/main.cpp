@@ -30,7 +30,7 @@ int main() {
     }
     file.close();
   }
-  print(root);
+  print(root, 0);
   //cout << root->getData() << endl;
   //cout << root->getLeft()->getData() << endl;
   //cout << root->getRight()->getData() << endl;
@@ -53,7 +53,10 @@ void print(node* current, int depth) {
   if(current == NULL) {
     return;
   }
-  print(current->getLeft());
-  cout << current->getData() << " ";
-  print(current->getRight());
+  print(current->getLeft(), depth+1);
+  for(int i = 0; i < depth; i++) {
+    cout << "\t";
+  }
+  cout << current->getData() << endl;
+  print(current->getRight(), depth+1);
 }

@@ -5,6 +5,8 @@ using namespace std;
 
 node::node(int input) {
   data = input;
+  left = NULL;
+  right = NULL;
 }
 
 int node::getData() {
