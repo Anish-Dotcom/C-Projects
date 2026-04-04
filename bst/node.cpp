@@ -2,7 +2,7 @@
 #include "node.h"
 
 using namespace std;
-
+//getters & setters
 node::node(int input) {
   data = input;
   left = NULL;
@@ -11,6 +11,10 @@ node::node(int input) {
 
 int node::getData() {
   return data;
+}
+
+void node::setData(int value) {
+  data = value;
 }
 
 void node::setLeft(node* input) {

@@ -4,14 +4,15 @@
 #include <iostream> 
 
 class node {
- public:
+public://getters and setters
   node(int input);
   int getData();
+  void setData(int value);
   void setLeft(node* input);
   node* &getLeft();
   void setRight(node* input);
   node* &getRight();
- private:
+private://values
   int data;
   node* left;
   node* right;
