@@ -1,0 +1,10 @@
+#include <iostream>
+#include "redBlackTree.h"
+
+using namespace std;
+
+int main() {
+  redBlackTree tree;
+  tree.insert(NULL, NULL , 10);
+  return 0;
+}
