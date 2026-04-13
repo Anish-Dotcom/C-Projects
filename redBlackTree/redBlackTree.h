@@ -3,7 +3,7 @@ using namespace std;
 
 struct node {
   int data;
-  bool color = 0;
+  char color = 'r';
   node* parent = NULL;
   node* left = NULL;
   node* right = NULL;
@@ -18,4 +18,6 @@ class redBlackTree {
   node* root;
   void insert(node* &current, node* newnode, int ndata);
   void print(node* current, int depth);
+  node* sibling(node* current);
+  void insertfix(node* current);
 };
