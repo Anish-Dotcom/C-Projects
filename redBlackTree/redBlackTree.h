@@ -13,7 +13,9 @@ class redBlackTree {
  public:
   redBlackTree();
   void insert(int data);
-  void insertTraversal(node* current, node* newnode);
- private:
+  void print();
+  private:
   node* root;
+  void insert(node* &current, node* newnode, int ndata);
+  void print(node* current, int depth);
 };
