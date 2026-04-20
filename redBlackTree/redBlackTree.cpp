@@ -32,6 +32,10 @@ void redBlackTree::insert(node* &current, node* newnode, int ndata) {
   insertfix(current);
 }
 
+void redBlackTree::insertfix(node* current) {
+  cout << "" << endl;
+}
+
 void redBlackTree::print() {
   print(root, 0);
 }

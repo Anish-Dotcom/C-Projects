@@ -17,7 +17,7 @@ class redBlackTree {
   private:
   node* root;
   void insert(node* &current, node* newnode, int ndata);
+  void insertfix(node* current);
   void print(node* current, int depth);
   node* sibling(node* current);
-  void insertfix(node* current);
 };
