@@ -1,15 +1,20 @@
 #include <iostream>
+#include <fstream>
 #include "redBlackTree.h"
 
 using namespace std;
 
 int main() {
   redBlackTree tree;
-  tree.insert(6);  
-  tree.insert(2);
-  tree.insert(8);
-  tree.insert(9);
-  tree.insert(7);
+  bool run = true;
+  char input[20];
+  cout << "Enter file name: ";
+  cin >> input;
+  ifstream file(input);
+  int num;
+  while(file >> num) {
+    tree.insert(num);
+  }
   tree.print();
   return 0;
 }
