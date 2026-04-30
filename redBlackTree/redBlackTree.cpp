@@ -120,3 +120,15 @@ void redBlackTree::leftRotate(node* top) {
   middle->left = top;//6. Swap the nodes
   top->parent = middle;
 }
+
+void redBlackTree::remove(int data) {
+  remove(root, data);
+}
+
+void redBlackTree::remove(node* &current, int data) {
+  cout << data << endl;
+}
+
+void redBlackTree::removefix(node* current) {
+
+}

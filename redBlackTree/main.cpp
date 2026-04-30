@@ -9,20 +9,19 @@ int main() {
   redBlackTree tree;
   bool run = true;
   char input[20];
-  cout << "Commands: file, type, print, quit" << endl;
+  int num;
+  cout << "Commands: file, type, print, remove, quit" << endl;
   while(run) {
     cin >> input;
     if(!strcmp(input, "file")) {
         cout << "Enter file name: ";
         cin >> input;
         ifstream file(input);
-        int num;
         while(file >> num) {
           tree.insert(num);
         }
     } else if (!strcmp(input, "type")) {
       cout << "Enter numbers: ";
-      int num;
       while(cin >> num) {
         tree.insert(num);
       }
@@ -30,6 +29,10 @@ int main() {
       tree.print();
     } else if(!strcmp(input, "quit")) {
       run = false;
+    } else if(!strcmp(input, "remove")) {
+      cout << "Enter number to remove: ";
+      cin >> num;
+      tree.remove(num);
     } else {
       cout << "invalid command" << endl;
     }
