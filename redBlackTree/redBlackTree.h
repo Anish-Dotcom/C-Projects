@@ -14,7 +14,7 @@ class redBlackTree {//prototypes
   redBlackTree();
   void insert(int data);
   void print();
-  void remove(int data);
+  void remove(int key);
   private:
   node* root;
   void insert(node* &current, node* newnode);
@@ -23,6 +23,6 @@ class redBlackTree {//prototypes
   node* sibling(node* current);
   void rightRotate(node* current);
   void leftRotate(node* current);
-  void remove(node* &current, int data);
+  void remove(node* &current, int key);
   void removefix(node* current);
 };

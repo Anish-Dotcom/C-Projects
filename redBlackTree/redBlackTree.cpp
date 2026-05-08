@@ -121,12 +121,15 @@ void redBlackTree::leftRotate(node* top) {
   top->parent = middle;
 }
 
-void redBlackTree::remove(int data) {
-  remove(root, data);
+void redBlackTree::remove(int key) {
+  remove(root, key);
 }
 
-void redBlackTree::remove(node* &current, int data) {
-  cout << data << endl;
+void redBlackTree::remove(node* &current, int key) {
+  node* z = NULL;
+  if(current->data == key) {
+    
+  } 
 }
 
 void redBlackTree::removefix(node* current) {
