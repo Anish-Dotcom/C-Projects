@@ -122,16 +122,62 @@ void redBlackTree::leftRotate(node* top) {
 }
 
 void redBlackTree::remove(int key) {
+  
   remove(root, key);
 }
 
 void redBlackTree::remove(node* &current, int key) {
-  node* z = NULL;
-  if(current->data == key) {
-    
-  } 
+  if(current == NULL) return;//no node found
+  
+  if(key < current->data) {//recurse left
+    remove(current->left, key);
+  } else if(key > current->data) {//or right
+    remove(current->right, key);
+  } else  {//found node
+    if(current->left == NULL) {//case 1: no left child
+      node* temp = current;
+      current = current->left;
+      delete temp:
+    } else if(current->right == NULL){// case 2: no right child
+      node* temp = current;
+      current = current->right;
+      delete temp;
+    } else {//case 3: two children
+      Node* successor = minimum(current->right);
+      if(successor->parent != current) {//Successor is not child of current
+        rbtransplant(successor, sucessor->right);
+        successor->right = current->right;
+        successor->right->parent = sucessor;
+      }
+
+      rbtransplant(current, successor);//transplant and update pointers
+      successor->left = node->left;
+      sucessor->left->parent = successor;
+      successor->color = node->color;//get color
+
+      delete node;
+    }
+  }
 }
 
 void redBlackTree::removefix(node* current) {
 
+}
+
+node* minimum(node* current) {
+  if(current->left == NULL) {
+    return current;
+  }
+  return minimum(current->left);
+}
+
+node* rbtransplant(node* u, node* v) {
+  if(u->parent == NULL) {//transplant at root
+    root = v;
+  } else if(u = u->parent->left) {//left child
+    u->parent->left = v;
+  } else {//right child
+    u->parent->left = v;
+  }
+  v->parent = u->parent;//change pointers
 }

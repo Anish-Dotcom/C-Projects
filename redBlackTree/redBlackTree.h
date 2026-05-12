@@ -25,4 +25,6 @@ class redBlackTree {//prototypes
   void leftRotate(node* current);
   void remove(node* &current, int key);
   void removefix(node* current);
+  node* minimum(node* current);
+  void rbtransplant(node* u, node* v);
 };
