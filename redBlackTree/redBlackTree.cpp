@@ -127,35 +127,71 @@ void redBlackTree::remove(int key) {
 }
 
 void redBlackTree::remove(node* &current, int key) {
-  if(current == NULL) return;//no node found
-  
-  if(key < current->data) {//recurse left
+  if(current == NULL) return;
+
+  if(key < current->data) {
     remove(current->left, key);
-  } else if(key > current->data) {//or right
+  } 
+  else if(key > current->data) {
     remove(current->right, key);
-  } else  {//found node
-    if(current->left == NULL) {//case 1: no left child
-      node* temp = current;
-      current = current->left;
-      delete temp:
-    } else if(current->right == NULL){// case 2: no right child
-      node* temp = current;
-      current = current->right;
-      delete temp;
-    } else {//case 3: two children
-      Node* successor = minimum(current->right);
-      if(successor->parent != current) {//Successor is not child of current
-        rbtransplant(successor, sucessor->right);
-        successor->right = current->right;
-        successor->right->parent = sucessor;
+  } 
+  else {//found node to delete
+
+    node* deleted = current;
+    node* removed = current;
+    node* child;
+    char removedColor = removed->color;
+
+    //case 1: no left child
+    if(current->left == NULL) {
+      child = current->right;
+      rbtransplant(current, current->right);
+    }
+
+    //case 2: no right child
+    else if(current->right == NULL) {
+      child = current->left;
+      rbtransplant(current, current->left);
+    }
+
+    //case 3: two children
+    else {
+      removed = minimum(current->right);
+      removedColor = removed->color;
+      child = removed->right;
+
+      //successor is direct child
+      if(removed->parent == current) {
+        if(child != NULL) {
+          child->parent = removed;
+        }
+      } 
+      else {
+        rbtransplant(removed, removed->right);
+
+        removed->right = current->right;
+
+        if(removed->right != NULL) {
+          removed->right->parent = removed;
+        }
       }
 
-      rbtransplant(current, successor);//transplant and update pointers
-      successor->left = node->left;
-      sucessor->left->parent = successor;
-      successor->color = node->color;//get color
+      //THIS MUST ALWAYS HAPPEN
+      rbtransplant(current, removed);
 
-      delete node;
+      removed->left = current->left;
+
+      if(removed->left != NULL) {
+        removed->left->parent = removed;
+      }
+
+      removed->color = current->color;
+    }
+
+    delete deleted;
+
+    if(removedColor == 'b') {
+      removefix(child);
     }
   }
 }
@@ -164,20 +200,25 @@ void redBlackTree::removefix(node* current) {
 
 }
 
-node* minimum(node* current) {
+node* redBlackTree::minimum(node* current) {
   if(current->left == NULL) {
     return current;
   }
   return minimum(current->left);
 }
 
-node* rbtransplant(node* u, node* v) {
-  if(u->parent == NULL) {//transplant at root
-    root = v;
-  } else if(u = u->parent->left) {//left child
-    u->parent->left = v;
-  } else {//right child
-    u->parent->left = v;
+void redBlackTree::rbtransplant(node* current, node* replacement) {
+  if(current->parent == NULL) {//current is root
+    root = replacement;
+  } 
+  else if(current == current->parent->left) {//current is left child
+    current->parent->left = replacement;
+  } 
+  else {//current is right child
+    current->parent->right = replacement;
   }
-  v->parent = u->parent;//change pointers
+
+  if(replacement != NULL) {//update parent pointer
+    replacement->parent = current->parent;
+  }
 }
