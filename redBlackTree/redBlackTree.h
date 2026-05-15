@@ -15,6 +15,7 @@ class redBlackTree {//prototypes
   void insert(int data);
   void print();
   void remove(int key);
+  bool search(int key);
   private:
   node* root;
   void insert(node* &current, node* newnode);
@@ -23,8 +24,10 @@ class redBlackTree {//prototypes
   node* sibling(node* current);
   void rightRotate(node* current);
   void leftRotate(node* current);
-  void remove(node* &current, int key);
+  void remove(node* current, int key);
   void removefix(node* current);
   node* minimum(node* current);
   void rbtransplant(node* u, node* v);
+  bool search(node* current, int key);
+  char getColor(node* current);
 };

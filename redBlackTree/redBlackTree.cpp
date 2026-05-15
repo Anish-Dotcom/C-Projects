@@ -122,86 +122,147 @@ void redBlackTree::leftRotate(node* top) {
 }
 
 void redBlackTree::remove(int key) {
-  
   remove(root, key);
 }
 
-void redBlackTree::remove(node* &current, int key) {
+void redBlackTree::remove(node* current, int key) {
   if(current == NULL) return;
 
-  if(key < current->data) {
+  if(key < current->data) {//binary search
     remove(current->left, key);
   } 
   else if(key > current->data) {
     remove(current->right, key);
   } 
   else {//found node to delete
-
     node* deleted = current;
-    node* removed = current;
+    node* successor = current;
     node* child;
-    char removedColor = removed->color;
+    char removedColor = successor->color;
 
     //case 1: no left child
     if(current->left == NULL) {
-      child = current->right;
-      rbtransplant(current, current->right);
+      child = current->right;//store subtree
+      rbtransplant(current, current->right);//swap
     }
 
     //case 2: no right child
     else if(current->right == NULL) {
-      child = current->left;
-      rbtransplant(current, current->left);
+      child = current->left;//store subtree
+      rbtransplant(current, current->left);//swap
     }
 
     //case 3: two children
     else {
-      removed = minimum(current->right);
-      removedColor = removed->color;
-      child = removed->right;
+      successor = minimum(current->right);//gets inorder successor
+      removedColor = successor->color;//store successor color for future fixup
+      child = successor->right;//store right subtree(only possible one)
 
       //successor is direct child
-      if(removed->parent == current) {
-        if(child != NULL) {
-          child->parent = removed;
+      if(successor->parent == current) {
+        if(child != NULL) {//fix parent pointer
+          child->parent = successor;
         }
       } 
-      else {
-        rbtransplant(removed, removed->right);
+      else {//not direct, requires transplant
+        rbtransplant(successor, successor->right);//replace successor with child
 
-        removed->right = current->right;
+        successor->right = deleted->right;//move currents right subtree to successors
 
-        if(removed->right != NULL) {
-          removed->right->parent = removed;
+        if(successor->right != NULL) {//fix parent pointer
+          successor->right->parent = successor;
         }
       }
+ 
+      rbtransplant(current, successor);//move in successor
 
-      //THIS MUST ALWAYS HAPPEN
-      rbtransplant(current, removed);
+      successor->left = deleted->left;//move left subtree to successor
 
-      removed->left = current->left;
-
-      if(removed->left != NULL) {
-        removed->left->parent = removed;
+      if(successor->left != NULL) {//fix parent pointer
+        successor->left->parent = successor;
       }
 
-      removed->color = current->color;
+      successor->color = deleted->color;//fix color
     }
 
-    delete deleted;
+    delete deleted;//delete the node
 
-    if(removedColor == 'b') {
+    if(removedColor == 'b') {//if its black violated rbt proporty and fix
       removefix(child);
     }
   }
 }
 
 void redBlackTree::removefix(node* current) {
+  node* sibling;
+  if(current == root) return;//case 1: current is root
+  if(current->color == 'r') {
+    current->color = 'b';
+    return;
+  }
 
+  if(current == current->parent->left) {//leftchild
+    sibling = current->parent->right;
+    if(getColor(sibling) == 'r') {//case 2: sibling is red
+      sibling->color = 'b';
+      current->parent->color = 'r';
+      leftRotate(current->parent);
+      sibling = current->parent->right;
+    }
+    if(getColor(sibling->left) == 'b'&& getColor(sibling->right) == 'b') {//case 3/4: sibling's children are black
+      sibling->color = 'r';
+      if(getColor(current->parent) == 'r') {//case 4: red parent
+        current->parent->color = 'b';
+      } else {//case 3: black parent
+        removefix(current->parent);
+      }
+    } else {//case 5/6 one of the sibling children is red
+      if(getColor(sibling->right) == 'b') {//case 5: sibling and sRight black and sRed red
+        sibling->color = 'r';
+        sibling->left->color = 'b';
+        rightRotate(sibling);
+        sibling = current->parent->right;
+      }
+      //case 6: sibling black and sRight red (true after case 5)
+      char tcolor = sibling->color;
+      sibling->color = current->parent->color;
+      current->parent->color = tcolor;
+      sibling->right->color = 'b';
+      leftRotate(current->parent);
+    }
+  } else { //right child
+    sibling = current->parent->left;
+    if(sibling->color == 'r') { //case 2: sibling is red
+      sibling->color = 'b';
+      current->parent->color = 'r';
+      rightRotate(current->parent);
+      sibling = current->parent->left;
+    }
+    if(sibling->right->color == 'b' && sibling->left->color == 'b') { //case 3/4: sibling's children are black
+      sibling->color = 'r';
+      if(current->parent->color == 'r') { //case 4: red parent, recolor
+        current->parent->color = 'b';
+      } else { //case 3: black parent, recurse up
+        removefix(current->parent);
+      }
+    } else { //case 5/6: one of the sibling children is red
+      if(sibling->left->color == 'b') { //case 5: sLeft black so sRight must be red
+        sibling->color = 'r';
+        sibling->right->color = 'b';
+        leftRotate(sibling);
+        sibling = current->parent->left;
+      }
+      //case 6: sibling black and sLeft red (true after case 5)
+      sibling->color = current->parent->color;
+      current->parent->color = 'b';
+      sibling->left->color = 'b';
+      rightRotate(current->parent);
+    }
+  }
 }
 
 node* redBlackTree::minimum(node* current) {
-  if(current->left == NULL) {
+  if(current->left == NULL) {//find leftmost node
     return current;
   }
   return minimum(current->left);
@@ -221,4 +282,24 @@ void redBlackTree::rbtransplant(node* current, node* replacement) {
   if(replacement != NULL) {//update parent pointer
     replacement->parent = current->parent;
   }
+}
+
+bool redBlackTree::search(int key) {
+  return search(root, key);
+}
+
+//search, goes left if greater right else
+bool redBlackTree::search(node* current, int key) {
+  if (current == NULL) return false;
+  if(current->data == key) return true;
+  if(current->data > key) {
+    return search(current->left, key);
+  } else  {
+    return search(current->right, key);
+  }
+}
+
+char redBlackTree::getColor(node* current) {//to make null nodes be black
+  if(current == NULL) return 'b';
+  return current->color;
 }
