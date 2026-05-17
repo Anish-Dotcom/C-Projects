@@ -4,9 +4,9 @@ using namespace std;
 struct node {//initialization
   int data;
   char color = 'r';
-  node* parent = NULL;
-  node* left = NULL;
-  node* right = NULL;
+  node* parent;
+  node* left;
+  node* right;
 };
 
 class redBlackTree {//prototypes
@@ -18,6 +18,7 @@ class redBlackTree {//prototypes
   bool search(int key);
   private:
   node* root;
+  node* nil;
   void insert(node* &current, node* newnode);
   void insertfix(node* current);
   void print(node* current, int depth);

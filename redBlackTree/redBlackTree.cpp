@@ -3,19 +3,31 @@
 using namespace std;
 
 redBlackTree::redBlackTree() {//constructor
-  root = NULL;
+  nil = new node;
+  nil->data = 0;
+  nil->color = 'b';
+  nil->left = nil;
+  nil->right = nil;
+  nil->parent = nil;
+
+  root = nil;
 }
 
 void redBlackTree::insert(int data) {//public insert helper function to start recursion
   node* newnode = new node;
   newnode->data = data;
+  newnode->left = nil;
+  newnode->right = nil;
+  newnode->parent = nil;
   insert(root, newnode);				 
   insertfix(newnode);
 }
 
 void redBlackTree::insert(node* &current, node* newnode) {//binary search tree insertion with parent pointers
-  if(current == NULL) {
+  if(current == nil) {
     current = newnode;
+    if(current->left == nil) current->left->parent = current;
+    if(current->right == nil) current->right->parent = current;
     return;
   }
   if(newnode->data < current->data) {
@@ -28,7 +40,7 @@ void redBlackTree::insert(node* &current, node* newnode) {//binary search tree i
 }
 
 void redBlackTree::insertfix(node* current) {//red black tree fix
-  if(current->parent == NULL) {//case 1: insert at root
+  if(current->parent == nil) {//case 1: insert at root
     current->color = 'b';//color root black
     return;
   }
@@ -38,7 +50,7 @@ void redBlackTree::insertfix(node* current) {//red black tree fix
   node* grandparent = current->parent->parent;//get grandparent
   node* uncle = sibling(current->parent);
     
-  if (uncle != NULL && uncle->color == 'r') {//case 3: uncle is red
+  if (uncle != nil && uncle->color == 'r') {//case 3: uncle is red
     current->parent->color = 'b';//change uncle and parent to black
     uncle->color = 'b';
     grandparent->color = 'r';//grandparent to red
@@ -69,7 +81,7 @@ void redBlackTree::print() {//print helper
 }
 
 void redBlackTree::print(node* current, int depth) {//inorder traversal with depth
-  if(current == NULL) return;
+  if(current == nil) return;
   print(current->right, depth+1);
   for(int i = 0; i < depth; i++) cout << "\t";
   cout << current->data << current->color << endl;
@@ -77,7 +89,7 @@ void redBlackTree::print(node* current, int depth) {//inorder traversal with dep
 }
 
 node* redBlackTree::sibling(node* current) {//gets sibling
-  if(current == NULL || current->parent == NULL) return NULL;
+  if(current == nil || current->parent == nil) return nil;
   if(current == current->parent->left){
     return current->parent->right;
   } else {
@@ -88,11 +100,11 @@ node* redBlackTree::sibling(node* current) {//gets sibling
 void redBlackTree::rightRotate(node* top) {
   node* middle = top->left;
   top->left = middle->right;//update subtrees by moving middle's subtrees to top
-  if(middle->right != NULL) {
+  if(middle->right != nil) {
     middle->right->parent = top;//update subtree
   }
   middle->parent = top->parent;//update parent pointer
-  if(top->parent == NULL) {//If root update pointer
+  if(top->parent == nil) {//If root update pointer
     root = middle;
   } else if(top == top->parent->right) {//update parent to have correct child
     top->parent->right = middle;
@@ -106,11 +118,11 @@ void redBlackTree::rightRotate(node* top) {
 void redBlackTree::leftRotate(node* top) {
   node* middle = top->right;//1. get the middle
   top->right = middle->left;//2. update subtree by moving middle's left to tops right
-  if(middle->left != NULL) {
+  if(middle->left != nil) {
     middle->left->parent = top;//update subtree
   }
   middle->parent = top->parent;
-  if(top->parent == NULL) {//3. If root update
+  if(top->parent == nil) {//3. If root update
     root = middle;
   } else if(top == top->parent->left) {//4. if top is left child then set middle as left of parent
     top->parent->left = middle;
@@ -126,7 +138,7 @@ void redBlackTree::remove(int key) {
 }
 
 void redBlackTree::remove(node* current, int key) {
-  if(current == NULL) return;
+  if(current == nil) return;
 
   if(key < current->data) {//binary search
     remove(current->left, key);
@@ -141,13 +153,13 @@ void redBlackTree::remove(node* current, int key) {
     char removedColor = successor->color;
 
     //case 1: no left child
-    if(current->left == NULL) {
+    if(current->left == nil) {
       child = current->right;//store subtree
       rbtransplant(current, current->right);//swap
     }
 
     //case 2: no right child
-    else if(current->right == NULL) {
+    else if(current->right == nil) {
       child = current->left;//store subtree
       rbtransplant(current, current->left);//swap
     }
@@ -160,16 +172,14 @@ void redBlackTree::remove(node* current, int key) {
 
       //successor is direct child
       if(successor->parent == current) {
-        if(child != NULL) {//fix parent pointer
-          child->parent = successor;
-        }
+        child->parent = successor;
       } 
       else {//not direct, requires transplant
         rbtransplant(successor, successor->right);//replace successor with child
 
         successor->right = deleted->right;//move currents right subtree to successors
 
-        if(successor->right != NULL) {//fix parent pointer
+        if(successor->right != nil) {//fix parent pointer
           successor->right->parent = successor;
         }
       }
@@ -178,7 +188,7 @@ void redBlackTree::remove(node* current, int key) {
 
       successor->left = deleted->left;//move left subtree to successor
 
-      if(successor->left != NULL) {//fix parent pointer
+      if(successor->left != nil) {//fix parent pointer
         successor->left->parent = successor;
       }
 
@@ -195,81 +205,104 @@ void redBlackTree::remove(node* current, int key) {
 
 void redBlackTree::removefix(node* current) {
   node* sibling;
-  if(current == root) return;//case 1: current is root
-  if(current->color == 'r') {
+
+  if(current == root) return; //case 1: current is root
+
+  if(getColor(current) == 'r') {
     current->color = 'b';
     return;
   }
 
-  if(current == current->parent->left) {//leftchild
+  if(current == current->parent->left) { //left child
     sibling = current->parent->right;
-    if(getColor(sibling) == 'r') {//case 2: sibling is red
+    if(getColor(sibling) == 'r') { //case 2
       sibling->color = 'b';
       current->parent->color = 'r';
       leftRotate(current->parent);
       sibling = current->parent->right;
     }
-    if(getColor(sibling->left) == 'b'&& getColor(sibling->right) == 'b') {//case 3/4: sibling's children are black
+
+    if(getColor(sibling->left) == 'b' &&
+       getColor(sibling->right) == 'b') { //case 3/4
+
       sibling->color = 'r';
-      if(getColor(current->parent) == 'r') {//case 4: red parent
+
+      if(getColor(current->parent) == 'r') { //case 4
         current->parent->color = 'b';
-      } else {//case 3: black parent
+      }
+      else { //case 3
         removefix(current->parent);
       }
-    } else {//case 5/6 one of the sibling children is red
-      if(getColor(sibling->right) == 'b') {//case 5: sibling and sRight black and sRed red
+    }
+
+    else { //case 5/6
+
+      if(getColor(sibling->right) == 'b') { //case 5
         sibling->color = 'r';
         sibling->left->color = 'b';
         rightRotate(sibling);
         sibling = current->parent->right;
       }
-      //case 6: sibling black and sRight red (true after case 5)
-      char tcolor = sibling->color;
+
+      //case 6
       sibling->color = current->parent->color;
-      current->parent->color = tcolor;
+      current->parent->color = 'b';
       sibling->right->color = 'b';
+
       leftRotate(current->parent);
     }
-  } else { //right child
+  }
+
+  else { //right child
     sibling = current->parent->left;
-    if(sibling->color == 'r') { //case 2: sibling is red
+    if(getColor(sibling) == 'r') { //case 2
       sibling->color = 'b';
       current->parent->color = 'r';
       rightRotate(current->parent);
       sibling = current->parent->left;
     }
-    if(sibling->right->color == 'b' && sibling->left->color == 'b') { //case 3/4: sibling's children are black
+
+    if(getColor(sibling->right) == 'b' &&
+       getColor(sibling->left) == 'b') { //case 3/4
+
       sibling->color = 'r';
-      if(current->parent->color == 'r') { //case 4: red parent, recolor
+
+      if(getColor(current->parent) == 'r') { //case 4
         current->parent->color = 'b';
-      } else { //case 3: black parent, recurse up
+      }
+      else { //case 3
         removefix(current->parent);
       }
-    } else { //case 5/6: one of the sibling children is red
-      if(sibling->left->color == 'b') { //case 5: sLeft black so sRight must be red
+    }
+
+    else { //case 5/6
+
+      if(getColor(sibling->left) == 'b') { //case 5
         sibling->color = 'r';
         sibling->right->color = 'b';
         leftRotate(sibling);
         sibling = current->parent->left;
       }
-      //case 6: sibling black and sLeft red (true after case 5)
+
+      //case 6
       sibling->color = current->parent->color;
       current->parent->color = 'b';
       sibling->left->color = 'b';
+      cout << current->parent->data << endl;
       rightRotate(current->parent);
     }
   }
 }
 
 node* redBlackTree::minimum(node* current) {
-  if(current->left == NULL) {//find leftmost node
+  if(current->left == nil) {//find leftmost node
     return current;
   }
   return minimum(current->left);
 }
 
 void redBlackTree::rbtransplant(node* current, node* replacement) {
-  if(current->parent == NULL) {//current is root
+  if(current->parent == nil) {//current is root
     root = replacement;
   } 
   else if(current == current->parent->left) {//current is left child
@@ -278,10 +311,7 @@ void redBlackTree::rbtransplant(node* current, node* replacement) {
   else {//current is right child
     current->parent->right = replacement;
   }
-
-  if(replacement != NULL) {//update parent pointer
-    replacement->parent = current->parent;
-  }
+  replacement->parent = current->parent;
 }
 
 bool redBlackTree::search(int key) {
@@ -290,7 +320,7 @@ bool redBlackTree::search(int key) {
 
 //search, goes left if greater right else
 bool redBlackTree::search(node* current, int key) {
-  if (current == NULL) return false;
+  if (current == nil) return false;
   if(current->data == key) return true;
   if(current->data > key) {
     return search(current->left, key);
@@ -300,6 +330,5 @@ bool redBlackTree::search(node* current, int key) {
 }
 
 char redBlackTree::getColor(node* current) {//to make null nodes be black
-  if(current == NULL) return 'b';
   return current->color;
 }
