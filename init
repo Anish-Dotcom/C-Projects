@@ -1,0 +1,22 @@
+;; Speed up startup
+(setq gc-cons-threshold 100000000)
+
+;; Line numbers
+(global-display-line-numbers-mode t)
+(setq display-line-numbers-type t)
+
+;; Better scrolling
+(setq scroll-conservatively 101)
+
+;; No backup files
+(setq make-backup-files nil)
+(setq auto-save-default nil)
+
+;; Yes/No -> y/n
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; Use spaces not tabs
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+
+(cua-mode t)
