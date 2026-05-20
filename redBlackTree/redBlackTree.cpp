@@ -332,3 +332,4 @@ bool redBlackTree::search(node* current, int key) {
 char redBlackTree::getColor(node* current) {//to make null nodes be black
   return current->color;
 }
+B
