@@ -2,6 +2,8 @@
 #include <vector>
 #include <queue>
 #include <map>
+#include <climits>
+#include <cstring>
 using namespace std;
 
 class graph
