@@ -67,7 +67,7 @@ public:
         int v = label_list[l2];
         adj_matrix[u][v] = 0;
     }
-    vector<int> find_shortest_path(char l1, char l2)
+    void find_shortest_path(char l1, char l2)
     {
         int vertices = adj_matrix.size();
         int u = label_list[l1];
@@ -78,6 +78,7 @@ public:
             greater<pair<int, int>>>
             pq;
         vector<int> dist(vertices, INT_MAX); // distance array with all distances set to inf
+        vector<int> parent(vertices, -1);    // parent stores which node it came from
         dist[u] = 0;                         // distance from source to itself is 0
         pq.emplace(0, u);
         while (!pq.empty()) // process the queue until its empty
@@ -90,16 +91,47 @@ public:
             {
                 for (int neighbor = 0; neighbor < vertices; neighbor++) // iterate through all neighbors of node
                 {
-                    int weight = adj_matrix[node][neighbor];  // get distance between node and neighbor
-                    if (dist[node] + weight < dist[neighbor]) // if we find a shorter path to neighbor through node
+                    int weight = adj_matrix[node][neighbor]; // get distance between node and neighbor
+                    if (weight > 0)
                     {
-                        dist[neighbor] = dist[node] + weight; // updata distance to neighbor
-                        pq.emplace(dist[neighbor], neighbor); // add to pq
+                        if (dist[node] + weight < dist[neighbor]) // if we find a shorter path to neighbor through node
+                        {
+                            dist[neighbor] = dist[node] + weight; // update distance to neighbor
+                            parent[neighbor] = node;
+                            pq.emplace(dist[neighbor], neighbor); // add to pq
+                        }
                     }
                 }
             }
         }
-        return dist;
+        if (dist[v] == INT_MAX) // no path exists
+        {
+            cout << "No path exists" << endl;
+            return;
+        }
+        vector<int> path;     // vector to store path
+        int current = v;      // start at final node
+        while (current != -1) // while parent exists
+        {
+            path.push_back(current);   // push parent into path
+            current = parent[current]; // backtrack
+        }
+        reverse(path.begin(), path.end());
+        for (int i = 0; i < path.size(); i++)
+        {
+            for (auto p : label_list)
+            {
+                if (p.second == path[i])
+                {
+                    cout << p.first;
+                    break;
+                }
+            }
+            if (i < path.size() - 1)
+                cout << " -> ";
+        }
+        cout << endl;
+        cout << "Total distance " << dist[v] << endl;
     }
 
 private:
@@ -109,36 +141,66 @@ private:
 
 int main()
 {
+    bool running = true;
     graph grapher(0);
-    grapher.add_vertex('A');
-    grapher.add_vertex('B');
-    grapher.add_vertex('C');
-    grapher.add_vertex('D');
-    grapher.add_vertex('E');
-    grapher.add_edge('A', 'B', 6);
-    grapher.add_edge('B', 'A', 6);
-    grapher.add_edge('A', 'D', 1);
-    grapher.add_edge('D', 'A', 1);
-    grapher.add_edge('B', 'D', 2);
-    grapher.add_edge('D', 'B', 2);
-    grapher.add_edge('B', 'C', 5);
-    grapher.add_edge('C', 'B', 5);
-    grapher.add_edge('B', 'E', 2);
-    grapher.add_edge('E', 'B', 2);
-    grapher.add_edge('C', 'B', 5);
-    grapher.add_edge('B', 'C', 5);
-    grapher.add_edge('D', 'E', 1);
-    grapher.add_edge('E', 'D', 1);
-    grapher.print();
-    // grapher.remove_vertex('A');
-    // grapher.remove_vertex('B');
-    // grapher.remove_edge('A', 'B');
-    vector<int> shortest_path = grapher.find_shortest_path('C', 'D');
-    for (int i = 0; i < shortest_path.size(); i++)
+    char input[20];
+    char labelA;
+    char labelB;
+    int weight;
+    cout << "Commands: addV, addE, rmvV, rmvE, print, shortP" << endl;
+    while (running)
     {
-        cout << shortest_path[i];
+        cin >> input;
+        if (!strcmp(input, "addV"))
+        {
+            cout << "Label(one char): ";
+            cin >> labelA;
+            grapher.add_vertex(labelA);
+        }
+        else if (!strcmp(input, "addE"))
+        {
+            cout << "Label A(one char): ";
+            cin >> labelA;
+            cout << "Label B(one char): ";
+            cin >> labelB;
+            cout << "Weight(num): ";
+            cin >> weight;
+            grapher.add_edge(labelA, labelB, weight);
+        }
+        else if (!strcmp(input, "rmvV"))
+        {
+            cout << "Label(one char): ";
+            cin >> labelA;
+            grapher.remove_vertex(labelA);
+        }
+        else if (!strcmp(input, "rmvE"))
+        {
+            cout << "Label A(one char): ";
+            cin >> labelA;
+            cout << "Label B(one char): ";
+            cin >> labelB;
+            grapher.remove_edge(labelA, labelB);
+        }
+        else if (!strcmp(input, "print"))
+        {
+            grapher.print();
+        }
+        else if (!strcmp(input, "shortP"))
+        {
+            cout << "Label A(one char): ";
+            cin >> labelA;
+            cout << "Label B(one char): ";
+            cin >> labelB;
+            grapher.find_shortest_path(labelA, labelB);
+        }
+        else if (!strcmp(input, "quit"))
+        {
+            running = false;
+        }
+        else
+        {
+            cout << "invalid" << endl;
+        }
     }
-    cout << endl;
-    // grapher.print();
     return 0;
 }
