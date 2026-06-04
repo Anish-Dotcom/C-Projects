@@ -67,24 +67,39 @@ public:
         int v = label_list[l2];
         adj_matrix[u][v] = 0;
     }
-    void find_shortest_path(char l1, char l2)
+    vector<int> find_shortest_path(char l1, char l2)
     {
         int vertices = adj_matrix.size();
         int u = label_list[l1];
         int v = label_list[l2];
-        // min heap with distance, node index pairs
-        priority_queue<pair<int, int>, vector<pair<int, int>, greater<int>>> pq;
+        priority_queue< // min heap with (distance, node) index pairs to sort by smallest distance
+            pair<int, int>,
+            vector<pair<int, int>>,
+            greater<pair<int, int>>>
+            pq;
         vector<int> dist(vertices, INT_MAX); // distance array with all distances set to inf
         dist[u] = 0;                         // distance from source to itself is 0
         pq.emplace(0, u);
-        while (!pq.empty())
+        while (!pq.empty()) // process the queue until its empty
         {
-            auto top = pq.top(); // get smallest value
-            pq.pop();            // remove smallest
-            int dist = top.first;
-            int node = top.second;
-            // if(!(dist > dist[node]))
+            auto top = pq.top();        // get smallest distance
+            pq.pop();                   // remove smallest dist
+            int distance = top.first;   // get distance to smallest node
+            int node = top.second;      // get smallest node
+            if (distance <= dist[node]) // continue only if current distance is lower than chosen
+            {
+                for (int neighbor = 0; neighbor < vertices; neighbor++) // iterate through all neighbors of node
+                {
+                    int weight = adj_matrix[node][neighbor];  // get distance between node and neighbor
+                    if (dist[node] + weight < dist[neighbor]) // if we find a shorter path to neighbor through node
+                    {
+                        dist[neighbor] = dist[node] + weight; // updata distance to neighbor
+                        pq.emplace(dist[neighbor], neighbor); // add to pq
+                    }
+                }
+            }
         }
+        return dist;
     }
 
 private:
@@ -118,7 +133,12 @@ int main()
     // grapher.remove_vertex('A');
     // grapher.remove_vertex('B');
     // grapher.remove_edge('A', 'B');
-    grapher.find_shortest_path('C', 'D');
+    vector<int> shortest_path = grapher.find_shortest_path('C', 'D');
+    for (int i = 0; i < shortest_path.size(); i++)
+    {
+        cout << shortest_path[i];
+    }
+    cout << endl;
     // grapher.print();
     return 0;
 }
